@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Kalam:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --wall:#2f3a33; --wall-deep:#26302a; --on-wall:#e8ece9; --on-wall-muted:#a3aea6;
+    --wall:#2f3a33; --wall-deep:#26302a; --on-wall:#e8ece9; --on-wall-muted:#c5cec7;
     --alu:#cfd3d6; --alu-hi:#eef0f1; --alu-lo:#9ea4a8;
     --board:#fbfbf8; --ink:#1b1f24; --marker:#d62845; --marker-blue:#1f5fd6;
     --r-frame:6px; --r-ctl:6px;
@@ -20,13 +20,16 @@
     min-height:100vh; display:flex; flex-direction:column; align-items:center;
     padding:20px 16px 28px;
   }
-  .room { width:min(100%, 1440px, calc((100vh - 200px) * 1.6)); min-width:min(100%, 720px); }
+  .room { width:min(100%, 1440px, calc((100vh - 270px) * 1.6)); min-width:min(100%, 720px); }
   header { display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; margin:0 4px 14px; }
   .brand { font-family:Kalam,cursive; font-weight:700; font-size:28px; letter-spacing:.2px; color:var(--on-wall); }
   .lesson { color:var(--on-wall-muted); font-size:17px; }
-  .lang { margin-left:auto; display:inline-flex; border:1px solid #4a574e; border-radius:var(--r-ctl); overflow:hidden; }
-  .lang button { background:transparent; color:var(--on-wall-muted); border:0; padding:7px 14px; font:inherit; font-size:15px; cursor:pointer; }
-  .lang button[aria-pressed="true"] { background:var(--on-wall); color:var(--wall); font-weight:700; }
+  .lang { margin-left:auto; position:relative; display:inline-grid; grid-template-columns:1fr 1fr; padding:3px; background:#3a473f; border:1px solid #4d5c52; border-radius:999px; }
+  .lang .pill { position:absolute; top:3px; bottom:3px; left:3px; width:calc(50% - 3px); border-radius:999px; background:var(--on-wall); box-shadow:0 1px 3px #0000004d; transition:transform .25s cubic-bezier(.2,.8,.2,1); }
+  .lang[data-active="english"] .pill { transform:translateX(100%); }
+  .lang button { position:relative; z-index:1; background:transparent; color:#dfe5e0; border:0; border-radius:999px; padding:6px 16px; font:inherit; font-size:15px; cursor:pointer; transition:color .2s ease; }
+  .lang button:hover { color:#fff; }
+  .lang button[aria-pressed="true"] { color:var(--wall); font-weight:700; }
 
   /* board: aluminium frame */
   .frame {
@@ -36,14 +39,12 @@
   }
   .surface { position:relative; background:var(--board); border-radius:2px; overflow:hidden; box-shadow:0 0 0 1px #00000018 inset; }
   svg#board { width:100%; height:auto; display:block; }
-  .subtitle {
-    position:absolute; left:50%; bottom:14px; transform:translateX(-50%);
-    width:min(86%,980px); text-align:center; color:var(--ink);
-    font-family:Kalam,cursive; font-size:clamp(15px,1.7vw,21px); line-height:1.35;
-    background:#fbfbf8e6; border:1px solid #1b1f2414; border-radius:6px; padding:8px 16px;
-    opacity:0; transition:opacity .25s ease;
+  .caption-bar {
+    margin-top:10px; min-height:3.1em; display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:6px 18px; border-radius:4px; background:#fbfbf8; color:var(--ink); box-shadow:0 0 0 1px #00000018 inset;
+    font-family:Kalam,cursive; font-size:clamp(15px,1.5vw,20px); line-height:1.35;
   }
-  .subtitle.on { opacity:1; }
+  .caption-bar[data-empty="true"] { color:#7b858f; }
   .start {
     position:absolute; inset:0; display:grid; place-items:center; background:#fbfbf8cc;
   }
@@ -70,11 +71,14 @@
   }
   .ic:hover { background:#fff; }
   .ic:active { transform:scale(.95); }
-  .ic svg { width:18px; height:18px; }
+  .ic { padding:0; }
+  .ic svg { width:18px; height:18px; display:block; margin:auto; }
   .ic.main { width:46px; height:46px; background:var(--ink); color:#fff; border-color:var(--ink); }
   .ic.main:hover { background:#2c333b; }
   .chapters { flex:1 1 420px; min-width:0; display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; padding:2px 0; }
   .chapters::-webkit-scrollbar { display:none; }
+  .chapters { --fl:0px; --fr:0px; -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%); mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%); }
+  .chapters.more-l { --fl:36px; } .chapters.more-r { --fr:36px; }
   .ch {
     flex:1 0 auto; min-width:74px; text-align:left; font:inherit; font-size:13px; line-height:1.2; color:#3d4650;
     background:transparent; border:0; border-top:4px solid #00000026; padding:6px 4px 2px; cursor:pointer;
@@ -90,12 +94,13 @@
     transition:background .15s ease, transform .1s ease;
   }
   .ask:hover { background:#5a32a0; } .ask:active { transform:scale(.97); }
-  button:disabled { opacity:.45; cursor:not-allowed; }
+  button:disabled { opacity:.4; cursor:not-allowed; }
+  .ic:disabled:hover { background:#ffffffa8; } .ic.main:disabled:hover { background:var(--ink); }
   .chips { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 6px; }
   .chip { font:inherit; font-size:14px; color:#4a2c86; background:#f1eff6; border:1px solid #d8d2e6; border-radius:999px; padding:6px 12px; cursor:pointer; }
   .chip:hover { background:#e6e0f2; }
   .main { display:grid; grid-template-columns:minmax(0,1fr); gap:16px; align-items:start; }
-  .room.chatting { width:min(100%, 1800px, calc((100vh - 200px) * 1.6 + 380px)); }
+  .room.chatting { width:min(100%, 1800px, calc((100vh - 270px) * 1.6 + 380px)); }
   .room.chatting .main { grid-template-columns:minmax(0,1fr) 360px; }
   .chat {
     display:flex; flex-direction:column; height:calc(100% - 0px); max-height:calc(100vh - 120px); min-height:420px;
@@ -104,7 +109,11 @@
   .chat[hidden] { display:none; }
   .chat-head { padding:14px 16px 10px; border-bottom:1px solid #e2e2dc; display:flex; align-items:baseline; gap:10px; }
   .chat-title { font-family:Kalam,cursive; font-weight:700; font-size:24px; color:#6b3fb8; }
-  .chat-note { color:#6b7480; font-size:13px; margin-left:auto; }
+  .chat-note { color:#5d6670; font-size:13px; margin-left:auto; }
+  .chat-head { align-items:center; }
+  .chat-close { width:34px; height:34px; display:grid; place-items:center; padding:0; border:0; border-radius:8px; background:transparent; color:#4b5560; cursor:pointer; transition:background .15s ease; }
+  .chat-close:hover { background:#e9e9e3; color:var(--ink); }
+  .chat-grip { display:none; }
   .chat-log { flex:1; overflow-y:auto; padding:14px 14px 6px; display:flex; flex-direction:column; gap:8px; }
   .msg { max-width:88%; padding:9px 12px; border-radius:12px; font-size:15px; line-height:1.45; white-space:pre-wrap; }
   .msg.bot { align-self:flex-start; background:#fff; border:1px solid #e2e2dc; border-bottom-left-radius:4px; }
@@ -113,6 +122,7 @@
   .msg.typing { display:inline-flex; gap:4px; padding:12px 14px; }
   .msg.typing span { width:6px; height:6px; border-radius:50%; background:#9aa1aa; animation:blink 1s infinite; }
   .msg.typing span:nth-child(2) { animation-delay:.15s; } .msg.typing span:nth-child(3) { animation-delay:.3s; }
+  @keyframes sheet-up { from { transform:translateY(100%); } to { transform:none; } }
   @keyframes blink { 0%,80%,100% { opacity:.3; } 40% { opacity:1; } }
   .chat-replies { display:flex; flex-wrap:wrap; gap:6px; padding:4px 14px 10px; }
   .chat-replies:empty { display:none; }
@@ -129,16 +139,22 @@
   .hand { font-family:Kalam,'Comic Sans MS',cursive; }
   @media (max-width:640px) {
     .room.chatting .main { grid-template-columns:minmax(0,1fr); }
-    .chat { min-height:0; }
+    .chat {
+      position:fixed; left:0; right:0; bottom:0; z-index:20; height:55vh; height:55dvh; min-height:0; max-height:none;
+      border-radius:16px 16px 0 0; box-shadow:0 -12px 32px #00000059; animation:sheet-up .28s cubic-bezier(.2,.8,.2,1);
+    }
+    .chat-head { position:relative; padding-top:18px; }
+    .chat-grip { display:block; position:absolute; top:7px; left:50%; width:40px; height:4px; margin-left:-20px; border-radius:2px; background:#cfd3d6; }
+    .room.chatting { padding-bottom:56vh; }
+    .caption-bar { margin-top:6px; }
     .chat { max-height:none; }
     .ask { order:5; }
     body { padding:12px 10px 20px; }
     .frame { padding:6px; }
     .tray { margin:0 4px; }
     .lang { margin-left:0; }
-    .subtitle { position:static; transform:none; width:auto; margin:0; border-radius:0; border-width:1px 0 0; opacity:1; min-height:3em; }
   }
-  @media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
+  @media (prefers-reduced-motion: reduce) { * { transition:none !important; animation:none !important; } }
 </style>
 
 </head>
@@ -147,7 +163,7 @@
 <header>
   <span class="brand">Brofessor</span>
   <span class="lesson">Human Digestive System</span>
-  <div class="lang" role="group" aria-label="Lesson language">
+  <div class="lang" role="group" aria-label="Lesson language" data-active="hinglish"><span class="pill" aria-hidden="true"></span>
     <button data-lang="hinglish" aria-pressed="true">Hinglish</button>
     <button data-lang="english" aria-pressed="false">English</button>
   </div>
@@ -170,7 +186,6 @@
   <g id="labels"></g>
   <g id="notes"></g>
 </svg>
-<div class="subtitle" id="caption" aria-live="polite"></div>
 <div class="start" id="startOverlay">
   <div>
     <button id="startBtn"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>Start the class</button>
@@ -178,6 +193,7 @@
   </div>
 </div>
 </div>
+<div class="caption-bar" id="caption" aria-live="polite" data-empty="true">Captions appear here while Brofessor teaches.</div>
 </div>
 <div class="tray">
   <button class="ic main" id="play" aria-label="Pause"><svg viewBox="0 0 24 24" fill="currentColor" id="playIcon"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
@@ -189,7 +205,7 @@
 </div>
 </div>
 <aside class="chat" id="chat" hidden aria-label="Doubt chat">
-  <div class="chat-head"><span class="chat-title">Doubts</span><span class="chat-note">Class waits till it's clear</span></div>
+  <div class="chat-head"><span class="chat-grip" aria-hidden="true"></span><span class="chat-title">Doubts</span><span class="chat-note">Class waits till it's clear</span><button type="button" class="chat-close" id="chatClose" aria-label="Close chat and continue the class"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
   <div class="chat-log" id="chatLog" aria-live="polite"></div>
   <div class="chat-replies" id="chatReplies"></div>
   <form class="chat-form" id="chatForm"><input id="chatInput" type="text" autocomplete="off" placeholder="Type your doubt" aria-label="Type your doubt"><button type="submit" aria-label="Send"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 20.5 21 12 3 3.5l2.5 8.5z"/></svg></button></form>
@@ -383,7 +399,7 @@ function browserSpeak(step, disp) {
 }
 function speak(step, id) {
   const disp = lang==='english' ? step.en : step.hi;
-  $('caption').textContent = disp;
+  setCaption(disp);
   stopVoice();
   if (!voiceOn) return wait(Math.max(2500, disp.length*55), id).catch(()=>{});
   if (step.key && !noAudio[lang]) {
@@ -724,9 +740,10 @@ function suggestReplies() {
 }
 function openDoubt() {
   if (!started || inDoubt) return;
-  inDoubt = true; paused = true; setPlayIcon(); stopVoice(); setCaption('');
+  inDoubt = true; paused = true; setPlayIcon(); stopVoice(); setCaption(T('Class paused for your doubt. Answer it in the chat.', 'Class aapke doubt ke liye ruki hai. Chat mein poocho.'));
   $('play').disabled = true; $('skip').disabled = true; $('askBtn').disabled = true;
   $('chat').hidden = false; document.querySelector('.room').classList.add('chatting');
+  if (matchMedia('(max-width:640px)').matches) scrollTo({top: document.querySelector('.frame').offsetTop - 8, behavior: reduceMotion ? 'auto' : 'smooth'});
   addMsg('sys', T(`Class paused at "${CHAPTERS[Math.max(0,lectureStep)]}"`, `Class "${CHAPTERS[Math.max(0,lectureStep)]}" pe ruki hai`));
   addMsg('bot', T('Sure, what is your doubt?', 'Haan bolo, kya doubt hai?'));
   suggestReplies();
@@ -735,6 +752,9 @@ function openDoubt() {
 let answering = false, doubtCount = 0;
 async function answer(d, asked) {
   if (answering) return; answering = true;
+  try { await answerInner(d, asked); } catch (e) { if (e !== 'stop') console.error(e); }
+}
+async function answerInner(d, asked) {
   addMsg('me', asked); doubtCount++; setReplies([]); $('chatInput').disabled = true;
   const typing = addTyping();
   clearDoubtSheet(); doubtAlive = true;
@@ -795,9 +815,10 @@ async function resolveDoubt() {
   doubtAlive = false; closeChat();
   resumeLecture('Okay, back to the lesson. ', 'Chalo, wapas lesson pe. ', 'चलो, वापस lesson पे. ');
 }
-function cancelDoubt() {
+function cancelDoubt(viaClose) {
   if ($('chat').hidden) return;
-  addMsg('me', T('Never mind, continue', 'Kuch nahi, aage badho'));
+  answering = false; $('chatLog').querySelectorAll('.typing').forEach(n=>n.remove());
+  addMsg('sys', viaClose===true ? T('Chat closed, class resumed', 'Chat band, class wapas shuru') : T('Class resumed', 'Class wapas shuru'));
   clearDoubtSheet(); doubtAlive = false; closeChat();
   resumeLecture('', '', '');
 }
@@ -822,11 +843,17 @@ const chapEls = CHAPTERS.map((t,i) => {
   b.onclick = () => { start(); run(i); };
   $('chapters').appendChild(b); return b;
 });
+function updateFades() {
+  const c = $('chapters'); const max = c.scrollWidth - c.clientWidth;
+  c.classList.toggle('more-l', c.scrollLeft > 4); c.classList.toggle('more-r', c.scrollLeft < max - 4);
+}
+$('chapters').addEventListener('scroll', updateFades, {passive:true});
+addEventListener('resize', updateFades);
 function markChapters(i) {
   chapEls.forEach((b,k) => { b.classList.toggle('done', k<i); b.classList.toggle('now', k===i); if (k===i) b.setAttribute('aria-current','step'); else b.removeAttribute('aria-current'); });
   chapEls[i]?.scrollIntoView({block:'nearest', inline:'nearest', behavior: reduceMotion?'auto':'smooth'});
 }
-function setCaption(t) { const c=$('caption'); c.textContent=t; c.classList.toggle('on', !!t); }
+function setCaption(t) { const c=$('caption'); c.textContent = t || (lang==='english' ? 'Captions appear here while Brofessor teaches.' : 'Brofessor jo bolega, wo yahan likha aayega.'); c.dataset.empty = String(!t); }
 function setPlayIcon() { $('playIcon').innerHTML = paused ? PLAY : PAUSE; $('play').setAttribute('aria-label', paused ? 'Play' : 'Pause'); }
 function clearBoard() { ['diagram','labels','notes'].forEach(k=>$(k).innerHTML=''); clipN=0; }
 
@@ -855,8 +882,7 @@ async function run(from=0) {
   } catch(e) { if (e!=='stop') console.error(e); }
 }
 // override caption writer used by speak()
-const _speak = speak;
-speak = (step, id) => { const p = _speak(step, id); setCaption($('caption').textContent); return p; };
+
 
 let started = false;
 function start() { if (started) return; started = true; $('startOverlay').remove(); }
@@ -872,6 +898,7 @@ $('speed').onclick = () => { speed = SPEEDS[(SPEEDS.indexOf(speed)+1) % SPEEDS.l
 document.querySelectorAll('.lang button').forEach(b => b.onclick = () => {
   lang = b.dataset.lang;
   document.querySelectorAll('.lang button').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
+  document.querySelector('.lang').dataset.active = lang;
 });
 $('voice').onclick = () => {
   voiceOn = !voiceOn; $('voice').setAttribute('aria-pressed', String(voiceOn));
@@ -880,6 +907,7 @@ $('voice').onclick = () => {
   if (!voiceOn) stopVoice();
 };
 $('askBtn').onclick = openDoubt;
+$('chatClose').onclick = () => cancelDoubt(true);
 $('chatForm').onsubmit = e => {
   e.preventDefault(); const t = $('chatInput').value.trim(); if (!t || answering) return;
   $('chatInput').value = '';
@@ -896,7 +924,7 @@ document.addEventListener('keydown', e => {
 });
 if ('speechSynthesis' in window) speechSynthesis.getVoices();
 if (reduceMotion) speed = 2;
-markChapters(-1);
+markChapters(-1); updateFades();
 
 </script>
 </body>

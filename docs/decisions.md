@@ -82,6 +82,7 @@ Every significant technical decision goes here: what was chosen, what the option
 - Atkinson Hyperlegible for UI (built for legibility), Kalam for everything written on the board.
 - No emoji icons, no all-caps labels, no gradient decoration on content. Keyboard support (Space, Right arrow), visible focus, responsive to mobile.
 - Every UI change is checked with Playwright screenshots (desktop + mobile).
+- UX review fixes (22 Oct): chat has a close button (closing resumes the class, even mid-answer); chapter row shows edge fades when it scrolls; captions moved out of the board into a caption bar inside the frame so they never cover drawings; on mobile the chat is a bottom sheet over the lower half so the board stays visible; muted text raised to `#c5cec7` for WCAG contrast; language switch is a pill segmented control with a sliding indicator.
 
 ## D-012: Doubts interrupt the lecture through a chat, and the class waits until they are cleared
 - The student can interrupt at any moment (button or `D` key). The lecture pauses immediately and a **doubt chat** opens next to the board.
