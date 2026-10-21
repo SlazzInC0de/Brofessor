@@ -27,7 +27,13 @@ python generate_sarvam.py --lang hinglish
 python generate_sarvam.py --lang english
 python generate_sarvam.py --compare     # every Hinglish persona for step s1, to pick a voice
 ```
-Without audio files it falls back to the browser voice (robotic; on Windows a Hindi voice can be added under Settings > Time & language > Speech).
+Free option without an API key (Microsoft Edge neural voices, unofficial, good for prototyping):
+```bash
+pip install edge-tts
+python generate_edge.py --lang hinglish     # or --voice hi-IN-MadhurNeural for a male voice
+python generate_edge.py --compare
+```
+Without audio files it falls back to the best browser voice it can find (open the demo in Microsoft Edge for its natural voices) (robotic; on Windows a Hindi voice can be added under Settings > Time & language > Speech).
 
 Known limits: segmentation seeds and label positions are hand-picked. Automating them is the Phase 5 research item (D-010).
 

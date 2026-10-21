@@ -13,3 +13,4 @@ Format: three lines a day. Done / Blocked on / Next.
 - Done: Player UI redesign (classroom wall, aluminium frame, marker-tray controls, clickable chapters). Doubt interruption via chat with board sketches; class resumes only after the doubt is cleared (D-012). Figure-understanding research plan. Voice: player plays pre-generated neural TTS files (Sarvam script + bake-off plan, D-013). UX review fixes: chat close, chapter fades, caption bar, mobile bottom sheet, contrast, segmented language switch.
 - Blocked on:
 - Next:
+- UI v2 (clean modern app, 3-marker board) after v1 was rejected; free neural voice path (Edge voices) added.

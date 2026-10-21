@@ -76,13 +76,14 @@ Every significant technical decision goes here: what was chosen, what the option
 - Diagrams that fit a template (tree, automaton, flowchart) are rebuilt from the template instead of traced.
 - Open question: segmentation seeds were hand-picked in the demo. Automating them is the main research item for Phase 5 (plan in `docs/research/figure-understanding.md`): OCR labels + follow leader lines to get seeds, SAM 2 for masks, vision LLM to verify; fine-tune on AI2D only where zero-shot fails.
 
-## D-011: Player UI direction
-- The board is the hero; everything else stays quiet.
-- Classroom wall background, aluminium board frame, and a marker-tray ledge under the board that holds the controls and clickable step chapters.
-- Atkinson Hyperlegible for UI (built for legibility), Kalam for everything written on the board.
-- No emoji icons, no all-caps labels, no gradient decoration on content. Keyboard support (Space, Right arrow), visible focus, responsive to mobile.
+## D-011: Player UI direction (v2: clean modern app)
+- v1 (classroom wall, aluminium frame, marker tray) was rejected as cluttered. v2 follows a clean app direction (Notion/Linear-like).
+- Shell: light neutral background, slim top bar (logo, lesson name, language switch, mute), the board in a plain white card, captions in a bar under the board, a floating control pill (play, next, step dots with the current step name, speed, Ask a doubt), and the doubt chat as a side panel (bottom sheet on mobile).
+- Board uses **three markers only**: ink for drawings, labels and headings; blue for keywords and the doubt sheet; red for highlights and warnings. Body outline and pointer arrows in light grey. No per-organ rainbow.
+- Fonts: Geist for UI, Kalam only for what is written on the board.
+- Accent `#2b4fd8` is used only for primary actions (Start, Ask a doubt, send, current step).
+- Free voice upgrade: the player prefers neural browser voices (Edge "Natural"/"Online", Google) over old desktop voices; `playground/tts/generate_edge.py` makes free neural audio files.
 - Every UI change is checked with Playwright screenshots (desktop + mobile).
-- UX review fixes (22 Oct): chat has a close button (closing resumes the class, even mid-answer); chapter row shows edge fades when it scrolls; captions moved out of the board into a caption bar inside the frame so they never cover drawings; on mobile the chat is a bottom sheet over the lower half so the board stays visible; muted text raised to `#c5cec7` for WCAG contrast; language switch is a pill segmented control with a sliding indicator.
 
 ## D-012: Doubts interrupt the lecture through a chat, and the class waits until they are cleared
 - The student can interrupt at any moment (button or `D` key). The lecture pauses immediately and a **doubt chat** opens next to the board.
