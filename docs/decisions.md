@@ -83,4 +83,20 @@ Every significant technical decision goes here: what was chosen, what the option
 - No emoji icons, no all-caps labels, no gradient decoration on content. Keyboard support (Space, Right arrow), visible focus, responsive to mobile.
 - Every UI change is checked with Playwright screenshots (desktop + mobile).
 
-## D-012: (next decision)
+## D-012: Doubts interrupt the lecture through a chat, and the class waits until they are cleared
+- The student can interrupt at any moment (button or `D` key). The lecture pauses immediately and a **doubt chat** opens next to the board.
+- Doubts are **typed in the chat, not spoken**. Answers come back as chat text, and Brofessor also sketches the answer on a temporary **doubt sheet** on the board (same drawn-not-generated rule), highlighting the related part of the diagram.
+- The lecture **does not resume until the student confirms** ("Yes, clear"). "Still unclear" keeps the chat open for follow-ups. "Never mind" resumes without an answer.
+- On resume, the doubt sheet is wiped and Brofessor restarts the current step's narration with a short bridge ("Okay, back to the lesson").
+- The chat history stays for the whole class (doubt count shown on the button); later it feeds the end-of-class summary and quiz.
+- Backend (Phase 6): the doubt + current step + Board DSL so far go to the LLM, which returns a chat answer and a mini Board DSL for the doubt sheet. The demo uses pre-scripted doubts and says so for anything else.
+- Why: a real class lets you stop the teacher. Typing keeps doubts precise, works in a hostel/library, and leaves a written record to revise from.
+
+## D-013: Voice from pre-generated neural TTS, browser voice only as fallback
+- The browser's speech engine sounds robotic, especially for Hinglish. Lesson narration is now generated ahead of time with a neural TTS and stored per step (`audio/<lang>/<key>.mp3`); the player plays those files and pauses/stops them for doubts.
+- Candidate: Sarvam Bulbul v4-flash with code-mixed "enhi" personas for Hinglish, Bulbul v3 for English. Final pick after the bake-off in `docs/research/voice.md` (also ElevenLabs, Google, Azure, Smallest AI, open-source Indic Parler-TTS / IndicF5).
+- Generation script: `playground/tts/generate_sarvam.py` (reads `digestive-script.json`, needs `SARVAM_API_KEY`).
+- In the product the backend generates and caches audio per step, so a lesson is paid for once and replayed for free.
+- Doubts are text-only (D-012), so they don't need TTS.
+
+## D-014: (next decision)

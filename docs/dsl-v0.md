@@ -85,6 +85,20 @@ Every action has a `type` and an optional `id` (so it can be referenced later).
 ```
 `detail` defaults to `none` (outline only, D-008).
 
+## 5b. Doubts (D-012)
+A doubt answer is a mini lecture drawn on a temporary doubt sheet, returned by the backend.
+```json
+{
+  "doubt": "Why doesn't HCl burn the stomach?",
+  "at_step": "s3",
+  "chat_answer": "text shown in the chat",
+  "highlight": "fig1.stomach",
+  "sheet_actions": [ Action ],
+  "follow_ups": ["What is an ulcer?"]
+}
+```
+TODO: should doubts that are covered later in the lesson be answered now, or bookmarked ("we'll get there in 2 steps")?
+
 ## 6. References
 How to refer to part of an element. Current idea: `"t1.50"` = node `50` of tree `t1`, `"fig1.stomach"` = part `stomach` of traced figure `fig1`.
 TODO: is this format good enough?

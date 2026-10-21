@@ -13,6 +13,9 @@ Outlines first. No heavy colouring or shading. Detail is added only where it car
 ## Adaptive teaching
 When material is uploaded, Brofessor scans it and builds a **Teaching Profile** (subject, content type, level, length, visual kit, pace), then teaches accordingly: maths numericals as step-by-step derivations, DSA with trees and dry runs, theory with flowcharts and timelines. The user can override level, length, language and mode.
 
+## Doubts mid-lecture
+Stop the class at any moment and type your doubt in the chat. Brofessor answers in the chat, sketches the answer on the board, and only continues once you say it's clear.
+
 ## Product references
 - **Solvely.ai** (`docs/research/solvely-reference.md`): text-based step-by-step solutions. Brofessor teaches the same content on a live board with voice.
 - **NotebookLM** (`docs/research/notebooklm-reference.md`): podcasts and whiteboard-style videos built from AI-generated images, pre-rendered. Brofessor is live, draws exact strokes, takes doubts mid-lesson and speaks Hinglish.
@@ -62,4 +65,4 @@ Brofessor/
 | 7 | Polish + deploy | |
 
 ## Stack (planned)
-Next.js, TypeScript, SVG, rough.js, perfect-freehand, opentype.js, KaTeX, GSAP | FastAPI, Pydantic, PyMuPDF, OpenCV | Sarvam Bulbul TTS (Hinglish)
+Next.js, TypeScript, SVG, rough.js, perfect-freehand, opentype.js, KaTeX, GSAP | FastAPI, Pydantic, PyMuPDF, OpenCV | Sarvam Bulbul TTS (Hinglish, pre-generated per step)

@@ -1,0 +1,59 @@
+{
+  "lesson": "Human Digestive System",
+  "steps": [
+    {
+      "key": "s0",
+      "en": "Today we'll learn the human digestive system: how food is broken down into simple nutrients that our body can absorb for energy, growth and repair.",
+      "hinglish_display": "Aaj hum human digestive system padhenge: khana kaise tootkar simple nutrients banta hai, jo body energy, growth aur repair ke liye absorb karti hai.",
+      "hinglish_speech": "आज हम human digestive system पढ़ेंगे: खाना कैसे टूटकर simple nutrients बनता है, जो body energy, growth और repair के लिए absorb करती है."
+    },
+    {
+      "key": "s1",
+      "en": "It starts in the mouth. Teeth chew the food, that is mechanical digestion. Saliva from the salivary glands starts breaking down starches, which are carbohydrates.",
+      "hinglish_display": "Shuruaat mouth se hoti hai. Teeth khana chabate hain, ye mechanical digestion hai. Salivary glands ka saliva starch, yaani carbohydrates ko todna shuru karta hai.",
+      "hinglish_speech": "शुरुआत mouth से होती है. Teeth खाना चबाते हैं, ये mechanical digestion है. Salivary glands का saliva starch, यानी carbohydrates को तोड़ना शुरू करता है."
+    },
+    {
+      "key": "s2",
+      "en": "Next, food passes the pharynx and travels down the esophagus. Muscles contract in waves to push it down. This is called peristalsis. The epiglottis stops food from entering the windpipe.",
+      "hinglish_display": "Phir khana pharynx se hokar esophagus mein neeche jaata hai. Muscles wave ki tarah contract karke usse push karti hain. Isko peristalsis kehte hain. Epiglottis khane ko windpipe mein jaane se rokta hai.",
+      "hinglish_speech": "फिर खाना pharynx से होकर esophagus में नीचे जाता है. Muscles wave की तरह contract करके उसे push करती हैं. इसको peristalsis कहते हैं. Epiglottis खाने को windpipe में जाने से रोकता है."
+    },
+    {
+      "key": "s3",
+      "en": "In the stomach, strong acid, that is HCl, and enzymes churn the food into a semi-liquid mix called chyme.",
+      "hinglish_display": "Stomach mein strong acid yaani HCl aur enzymes khane ko churn karke ek semi-liquid mix banate hain, jise chyme kehte hain.",
+      "hinglish_speech": "Stomach में strong acid यानी HCl और enzymes खाने को churn करके एक semi-liquid mix बनाते हैं, जिसे chyme कहते हैं."
+    },
+    {
+      "key": "s4",
+      "en": "The chyme moves into the small intestine. This is the main site of chemical digestion and absorption. Most vitamins, minerals and nutrients enter the bloodstream here.",
+      "hinglish_display": "Chyme small intestine mein jaata hai. Yahi chemical digestion aur absorption ka main site hai. Zyada tar vitamins, minerals aur nutrients yahin se bloodstream mein jaate hain.",
+      "hinglish_speech": "Chyme small intestine में जाता है. यही chemical digestion और absorption का main site है. ज़्यादा तर vitamins, minerals और nutrients यहीं से bloodstream में जाते हैं."
+    },
+    {
+      "key": "s5",
+      "en": "Now the helpers, called accessory organs. The liver produces bile to break down fats. The gallbladder stores this bile and releases it into the small intestine. The pancreas secretes digestive juices to break down proteins, carbohydrates and fats.",
+      "hinglish_display": "Ab helpers, jinhe accessory organs kehte hain. Liver bile banata hai jo fats todta hai. Gallbladder is bile ko store karta hai aur small intestine mein chhodta hai. Pancreas digestive juices chhodta hai jo proteins, carbohydrates aur fats todte hain.",
+      "hinglish_speech": "अब helpers, जिन्हें accessory organs कहते हैं. Liver bile बनाता है जो fats तोड़ता है. Gallbladder इस bile को store करता है और small intestine में छोड़ता है. Pancreas digestive juices छोड़ता है जो proteins, carbohydrates और fats तोड़ते हैं."
+    },
+    {
+      "key": "s6",
+      "en": "Leftover waste passes into the large intestine, also called the colon. Here water is reabsorbed and solid waste is formed. The appendix is a small pouch attached here.",
+      "hinglish_display": "Bacha hua waste large intestine, yaani colon mein jaata hai. Yahan paani wapas absorb hota hai aur solid waste banta hai. Appendix yahin juda ek chhota pouch hai.",
+      "hinglish_speech": "बचा हुआ waste large intestine, यानी colon में जाता है. यहाँ पानी वापस absorb होता है और solid waste बनता है. Appendix यहीं जुड़ा एक छोटा pouch है."
+    },
+    {
+      "key": "s7",
+      "en": "Finally, the waste is stored in the rectum and expelled from the body through the anus. This is called defecation.",
+      "hinglish_display": "Aakhir mein waste rectum mein store hota hai aur anus se body ke bahar nikalta hai. Isko defecation kehte hain.",
+      "hinglish_speech": "आख़िर में waste rectum में store होता है और anus से body के बाहर निकलता है. इसको defecation कहते हैं."
+    },
+    {
+      "key": "s8",
+      "en": "Quick recap. Food goes mouth, esophagus, stomach, small intestine, large intestine, rectum and anus. The liver, gallbladder and pancreas help along the way.",
+      "hinglish_display": "Quick recap. Khana jaata hai mouth, esophagus, stomach, small intestine, large intestine, rectum aur anus. Liver, gallbladder aur pancreas raaste mein help karte hain.",
+      "hinglish_speech": "Quick recap. खाना जाता है mouth, esophagus, stomach, small intestine, large intestine, rectum और anus. Liver, gallbladder और pancreas रास्ते में help करते हैं."
+    }
+  ]
+}

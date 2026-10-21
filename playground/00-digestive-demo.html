@@ -84,11 +84,54 @@
   .ch.done { border-top-color:var(--marker-blue); color:var(--ink); }
   .ch.now { border-top-color:var(--marker); color:var(--ink); font-weight:700; }
   .speed { font:inherit; font-size:14px; font-weight:700; min-width:52px; width:auto; padding:0 10px; }
+  .ask {
+    height:40px; display:inline-flex; align-items:center; gap:8px; padding:0 14px 0 12px; border-radius:var(--r-ctl);
+    font:inherit; font-size:15px; font-weight:700; color:#fff; background:#6b3fb8; border:1px solid #5a32a0; cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+  }
+  .ask:hover { background:#5a32a0; } .ask:active { transform:scale(.97); }
+  button:disabled { opacity:.45; cursor:not-allowed; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 6px; }
+  .chip { font:inherit; font-size:14px; color:#4a2c86; background:#f1eff6; border:1px solid #d8d2e6; border-radius:999px; padding:6px 12px; cursor:pointer; }
+  .chip:hover { background:#e6e0f2; }
+  .main { display:grid; grid-template-columns:minmax(0,1fr); gap:16px; align-items:start; }
+  .room.chatting { width:min(100%, 1800px, calc((100vh - 200px) * 1.6 + 380px)); }
+  .room.chatting .main { grid-template-columns:minmax(0,1fr) 360px; }
+  .chat {
+    display:flex; flex-direction:column; height:calc(100% - 0px); max-height:calc(100vh - 120px); min-height:420px;
+    background:#f6f6f2; color:var(--ink); border-radius:10px; box-shadow:0 18px 40px #0000004d; overflow:hidden;
+  }
+  .chat[hidden] { display:none; }
+  .chat-head { padding:14px 16px 10px; border-bottom:1px solid #e2e2dc; display:flex; align-items:baseline; gap:10px; }
+  .chat-title { font-family:Kalam,cursive; font-weight:700; font-size:24px; color:#6b3fb8; }
+  .chat-note { color:#6b7480; font-size:13px; margin-left:auto; }
+  .chat-log { flex:1; overflow-y:auto; padding:14px 14px 6px; display:flex; flex-direction:column; gap:8px; }
+  .msg { max-width:88%; padding:9px 12px; border-radius:12px; font-size:15px; line-height:1.45; white-space:pre-wrap; }
+  .msg.bot { align-self:flex-start; background:#fff; border:1px solid #e2e2dc; border-bottom-left-radius:4px; }
+  .msg.me { align-self:flex-end; background:#6b3fb8; color:#fff; border-bottom-right-radius:4px; }
+  .msg.sys { align-self:center; background:none; color:#6b7480; font-size:13px; padding:2px 0; }
+  .msg.typing { display:inline-flex; gap:4px; padding:12px 14px; }
+  .msg.typing span { width:6px; height:6px; border-radius:50%; background:#9aa1aa; animation:blink 1s infinite; }
+  .msg.typing span:nth-child(2) { animation-delay:.15s; } .msg.typing span:nth-child(3) { animation-delay:.3s; }
+  @keyframes blink { 0%,80%,100% { opacity:.3; } 40% { opacity:1; } }
+  .chat-replies { display:flex; flex-wrap:wrap; gap:6px; padding:4px 14px 10px; }
+  .chat-replies:empty { display:none; }
+  .chip.go { background:#6b3fb8; color:#fff; border-color:#6b3fb8; font-weight:700; }
+  .chip.go:hover { background:#5a32a0; }
+  .chip.ghost { background:transparent; color:#4b5560; border-color:#cfd3d6; }
+  .chat-form { display:flex; gap:8px; padding:10px; border-top:1px solid #e2e2dc; background:#fff; }
+  .chat-form input { flex:1; min-width:0; font:inherit; font-size:15px; padding:10px 12px; border:1px solid #cfd3d6; border-radius:8px; background:#fff; }
+  .chat-form button { width:42px; border:0; border-radius:8px; background:#6b3fb8; color:#fff; cursor:pointer; display:grid; place-items:center; }
+  .chat-form input:disabled, .chat-form input:disabled + button { opacity:.5; }
   :focus-visible { outline:3px solid var(--marker-blue); outline-offset:2px; }
   .foot { margin:14px 4px 0; color:var(--on-wall-muted); font-size:13px; max-width:80ch; }
   .foot kbd { font:inherit; border:1px solid #56645a; border-radius:4px; padding:0 5px; }
   .hand { font-family:Kalam,'Comic Sans MS',cursive; }
   @media (max-width:640px) {
+    .room.chatting .main { grid-template-columns:minmax(0,1fr); }
+    .chat { min-height:0; }
+    .chat { max-height:none; }
+    .ask { order:5; }
     body { padding:12px 10px 20px; }
     .frame { padding:6px; }
     .tray { margin:0 4px; }
@@ -109,6 +152,7 @@
     <button data-lang="english" aria-pressed="false">English</button>
   </div>
 </header>
+<div class="main"><div class="stage">
 <div class="frame">
 <div class="surface">
 <svg id="board" viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Whiteboard">
@@ -139,10 +183,19 @@
   <button class="ic main" id="play" aria-label="Pause"><svg viewBox="0 0 24 24" fill="currentColor" id="playIcon"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg></button>
   <button class="ic" id="skip" aria-label="Next step"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6v12l8.5-6zM16 6h2v12h-2z"/></svg></button>
   <nav class="chapters" id="chapters" aria-label="Lesson steps"></nav>
+  <button class="ask" id="askBtn" aria-keyshortcuts="D"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4v9"/><path d="M8 4c0-1 3-2 3 0v6"/><path d="M11 6c0-1 3-1.5 3 .5V11"/><path d="M14 8c0-1 3-1 3 1v5c0 4-3 6-6 6s-4.5-1.5-6-4l-2-3c-.6-1 .8-2.2 1.8-1.2L8 14"/></svg><span>Ask a doubt</span></button>
   <button class="ic speed" id="speed" aria-label="Playback speed">1x</button>
   <button class="ic" id="voice" aria-label="Mute voice" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="voiceIcon"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg></button>
 </div>
-<p class="foot">Playground demo. The figure is traced into strokes from a reference illustration (Encyclopaedia Britannica, used for research): nothing on the board is a pasted or generated picture. Keys: <kbd>Space</kbd> pause, <kbd>→</kbd> next step.</p>
+</div>
+<aside class="chat" id="chat" hidden aria-label="Doubt chat">
+  <div class="chat-head"><span class="chat-title">Doubts</span><span class="chat-note">Class waits till it's clear</span></div>
+  <div class="chat-log" id="chatLog" aria-live="polite"></div>
+  <div class="chat-replies" id="chatReplies"></div>
+  <form class="chat-form" id="chatForm"><input id="chatInput" type="text" autocomplete="off" placeholder="Type your doubt" aria-label="Type your doubt"><button type="submit" aria-label="Send"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 20.5 21 12 3 3.5l2.5 8.5z"/></svg></button></form>
+</aside>
+</div>
+<p class="foot">Playground demo. The figure is traced into strokes from a reference illustration (Encyclopaedia Britannica, used for research): nothing on the board is a pasted or generated picture. Keys: <kbd>Space</kbd> pause, <kbd>→</kbd> next step, <kbd>D</kbd> ask a doubt in the chat. The class waits until your doubt is cleared.</p>
 </div>
 
 <script>
@@ -184,11 +237,12 @@ async function tween(ms, fn, id) {
   let t = 0, last = performance.now();
   while (t < ms) {
     await raf();
-    if (id !== runId) throw 'stop';
+    const isD = id === 'doubt';
+    if (isD ? !doubtAlive : id !== runId) throw 'stop';
     const now = performance.now();
-    if (!paused) t += (now - last) * speed;
+    if (isD || !paused) t += (now - last) * speed;
     last = now;
-    if (skipping) t = ms;
+    if (skipping && !isD) t = ms;
     fn(Math.min(1, t/ms));
   }
 }
@@ -298,12 +352,24 @@ function pickVoice(code) {
   const vs = speechSynthesis.getVoices();
   return vs.find(v=>v.lang===code) || vs.find(v=>v.lang && v.lang.startsWith(code.split('-')[0])) || null;
 }
-function speak(step, id) {
-  const disp = lang==='english' ? step.en : step.hi;
-  $('caption').textContent = disp;
-  if (!voiceOn || !('speechSynthesis' in window)) return wait(Math.max(2500, disp.length*55), id).catch(()=>{});
+// Voice: pre-generated audio (playground/audio/<lang>/<key>.mp3, see playground/tts) if present,
+// otherwise the browser's speech engine as a fallback.
+let curAudio = null; const noAudio = {};
+function stopVoice() { if (curAudio) { curAudio.onended = curAudio.onerror = null; curAudio.pause(); const r = curAudio._res; curAudio = null; r && r(); } if ('speechSynthesis' in window) speechSynthesis.cancel(); }
+function pauseVoice() { if (curAudio) curAudio.pause(); else if ('speechSynthesis' in window) speechSynthesis.pause(); }
+function resumeVoice() { if (curAudio) curAudio.play().catch(()=>{}); else if ('speechSynthesis' in window) speechSynthesis.resume(); }
+function playFile(key) {
+  return new Promise((res, rej) => {
+    const a = new Audio(`audio/${lang}/${key}.mp3`);
+    a.playbackRate = speed; a._res = res;
+    a.onended = () => { if (curAudio === a) curAudio = null; res(); };
+    a.onerror = () => { if (curAudio === a) curAudio = null; rej(); };
+    curAudio = a;
+    a.play().catch(rej);
+  });
+}
+function browserSpeak(step, disp) {
   return new Promise(res => {
-    speechSynthesis.cancel();
     let text = disp, v = null;
     if (lang==='english') v = pickVoice('en-IN') || pickVoice('en-US');
     else { v = pickVoice('hi-IN'); if (v) text = step.hiSpeech; else v = pickVoice('en-IN'); }
@@ -314,6 +380,17 @@ function speak(step, id) {
     u.onend = u.onerror = () => { clearTimeout(timer); res(); };
     speechSynthesis.speak(u);
   });
+}
+function speak(step, id) {
+  const disp = lang==='english' ? step.en : step.hi;
+  $('caption').textContent = disp;
+  stopVoice();
+  if (!voiceOn) return wait(Math.max(2500, disp.length*55), id).catch(()=>{});
+  if (step.key && !noAudio[lang]) {
+    return playFile(step.key).catch(() => { noAudio[lang] = true; return 'speechSynthesis' in window ? browserSpeak(step, disp) : wait(disp.length*55, id).catch(()=>{}); });
+  }
+  if (!('speechSynthesis' in window)) return wait(Math.max(2500, disp.length*55), id).catch(()=>{});
+  return browserSpeak(step, disp);
 }
 
 // ---------- the lecture (Board script) ----------
@@ -479,6 +556,262 @@ async function noteLetter(g, x, y, letter, title, color, bullets, id) {
   return yy;
 }
 
+// ---------- doubts: interrupt the lecture, resume only after the doubt is cleared ----------
+let inDoubt = false, doubtAlive = false, doubtResolve = null, lectureSpeech = null, lectureStep = -1, classOver = false;
+const DX = 1070, DW = 520; // doubt sheet: right side of the board
+const DOUBTS = [
+ { step:0, q:{en:'Why do we need digestion at all?', hi:'Digestion ki zaroorat kyun hai?'}, keys:['why','kyun','need','zaroorat','digestion'],
+   en:"Food molecules like starch, proteins and fats are too big to pass into the blood. Digestion breaks them into small units: starch into glucose, proteins into amino acids, and fats into fatty acids and glycerol.",
+   hi:"Starch, proteins aur fats jaise food molecules itne bade hote hain ki blood mein nahi ja sakte. Digestion inhe chhote units mein todta hai: starch se glucose, proteins se amino acids, aur fats se fatty acids aur glycerol.",
+   hiSpeech:"Starch, proteins और fats जैसे food molecules इतने बड़े होते हैं कि blood में नहीं जा सकते. Digestion इन्हें छोटे units में तोड़ता है: starch से glucose, proteins से amino acids, और fats से fatty acids और glycerol.",
+   draw: async g => {
+     await dLines(g, 190, [[['Big food molecules can\'t enter blood.','']],[['Digestion breaks them into ',''],['small units','blue'],[':','']]]);
+     await chain(g, DX+40, 290, 5, C.purple); await line(g, [[DX+215,290],[DX+275,290]], C.ink, 2, 'doubt', 300);
+     for (let k=0;k<5;k++) await dCircle(g, DX+300+k*38, 290+(k%2?10:-10), 11, C.purple);
+     await dLines(g, 360, [[['starch ',''],['→','red'],[' glucose','blue']],[['protein ',''],['→','red'],[' amino acids','blue']],[['fat ',''],['→','red'],[' fatty acids + glycerol','blue']]]);
+   }},
+ { step:1, organ:'mouth', q:{en:'Mechanical vs chemical digestion?', hi:'Mechanical aur chemical digestion mein farak?'}, keys:['mechanical','chemical','farak','difference','chew'],
+   en:"Mechanical digestion physically breaks food into smaller pieces, like teeth chewing. Chemical digestion uses enzymes to change the molecules themselves, like the amylase in saliva breaking starch.",
+   hi:"Mechanical digestion khane ko physically chhote tukdon mein todta hai, jaise teeth chabate hain. Chemical digestion enzymes se molecules ko hi badal deta hai, jaise saliva ka amylase starch ko todta hai.",
+   hiSpeech:"Mechanical digestion खाने को physically छोटे टुकड़ों में तोड़ता है, जैसे teeth चबाते हैं. Chemical digestion enzymes से molecules को ही बदल देता है, जैसे saliva का amylase starch को तोड़ता है.",
+   draw: async g => {
+     await write(g, DX+30, 200, [['Mechanical','red']], {size:25, bold:true}, 'doubt');
+     await dCircle(g, DX+70, 260, 30, C.red); await line(g, [[DX+110,260],[DX+160,260]], C.ink, 2, 'doubt', 250);
+     for (let k=0;k<6;k++) await dCircle(g, DX+185+(k%3)*24, 248+Math.floor(k/3)*24, 8, C.red);
+     await dLines(g, 330, [[['Same food, ',''],['smaller pieces','blue'],[' (chewing)','']]]);
+     await write(g, DX+30, 410, [['Chemical','green']], {size:25, bold:true}, 'doubt');
+     await chain(g, DX+40, 465, 4, C.green); await line(g, [[DX+180,465],[DX+230,465]], C.ink, 2, 'doubt', 250);
+     for (let k=0;k<4;k++) await dCircle(g, DX+255+k*34, 465, 10, C.green);
+     await dLines(g, 535, [[['Enzymes','blue'],[' change the molecule','']],[['(saliva amylase: starch ',''],['→','red'],[' sugar)','']]]);
+   }},
+ { step:2, organ:'esophagus', q:{en:'How does peristalsis push food?', hi:'Peristalsis khana kaise push karta hai?'}, keys:['peristalsis','push','wave','muscle'],
+   en:"The muscles just behind the food contract and squeeze, while the muscles ahead of it relax. This wave moves down the tube and pushes the food along. It works even if you are upside down.",
+   hi:"Khane ke theek peeche wali muscles contract hoke squeeze karti hain, aur aage wali relax hoti hain. Ye wave tube mein neeche chalti hai aur khane ko push karti hai. Ulta latak ke bhi ye kaam karta hai.",
+   hiSpeech:"खाने के ठीक पीछे वाली muscles contract होके squeeze करती हैं, और आगे वाली relax होती हैं. ये wave tube में नीचे चलती है और खाने को push करती है. उल्टा लटक के भी ये काम करता है.",
+   draw: async g => {
+     const x=DX+120;
+     await line(g, [[x-30,180],[x-30,300],[x-14,330],[x-14,360],[x-30,390],[x-30,560]], C.red, 2.6, 'doubt', 500, false);
+     await line(g, [[x+30,180],[x+30,300],[x+14,330],[x+14,360],[x+30,390],[x+30,560]], C.red, 2.6, 'doubt', 500, false);
+     const b = el('ellipse',{cx:x, cy:430, rx:22, ry:28, fill:'#c0392b', opacity:.8}, g);
+     await line(g, [[x-75,345],[x-36,345]], C.purple, 2.2, 'doubt', 250); await line(g, [[x+75,345],[x+36,345]], C.purple, 2.2, 'doubt', 250);
+     await write(g, x+80, 340, [['contract','purple']], {size:21}, 'doubt');
+     await write(g, x+80, 470, [['relaxed','blue']], {size:21}, 'doubt');
+     await line(g, [[x,470],[x,530]], C.ink, 2, 'doubt', 300);
+     await dLines(g, 620, [[['Squeeze ',''],['behind','red'],[' the food,','']],[['relax ',''],['ahead','blue'],['. The wave pushes','']],[['food down, even upside down!','']]]);
+   }},
+ { step:2, organ:'esophagus', q:{en:'What does the epiglottis do?', hi:'Epiglottis kya karta hai?'}, keys:['epiglottis','windpipe','choke','flap'],
+   en:"The epiglottis is a small flap. When you swallow, it closes the windpipe so food goes into the esophagus and not into your lungs. That's why you cough when food goes down the wrong way.",
+   hi:"Epiglottis ek chhota flap hai. Jab hum nigalte hain, ye windpipe ko band kar deta hai taaki khana esophagus mein jaaye, lungs mein nahi. Isliye galat raaste khana jaane pe khaansi aati hai.",
+   hiSpeech:"Epiglottis एक छोटा flap है. जब हम निगलते हैं, ये windpipe को बंद कर देता है ताकि खाना esophagus में जाए, lungs में नहीं. इसलिए गलत रास्ते खाना जाने पे खाँसी आती है.",
+   draw: async g => {
+     const x=DX+200;
+     await line(g, [[x-20,180],[x-20,280],[x-90,380],[x-90,520]], C.ink, 2.4, 'doubt', 450, false);
+     await line(g, [[x+20,180],[x+20,280],[x+90,380],[x+90,520]], C.ink, 2.4, 'doubt', 450, false);
+     await line(g, [[x-50,520],[x-50,330],[x,290],[x+50,330],[x+50,520]], C.ink, 2.4, 'doubt', 450, false);
+     await line(g, [[x-50,328],[x-6,300]], '#c2185b', 4, 'doubt', 300, false);
+     await write(g, x-185, 545, [['windpipe','blue']], {size:21}, 'doubt');
+     await write(g, x+40, 545, [['esophagus','red']], {size:21}, 'doubt');
+     await write(g, x+40, 300, [['epiglottis','#c2185b']], {size:21}, 'doubt');
+     await dLines(g, 620, [[['Flap ',''],['closes the windpipe','blue']],[['while you swallow, so food','']],[['goes to the stomach, not lungs.','']]]);
+   }},
+ { step:3, organ:'stomach', q:{en:"Why doesn't HCl burn the stomach?", hi:'HCl stomach ko khud kyun nahi jalaata?'}, keys:['hcl','acid','burn','jalaata','jalta','ulcer'],
+   en:"The stomach wall makes a thick layer of mucus that shields the lining from the acid. The lining cells are also replaced every few days. If the mucus layer breaks down, you can get an ulcer.",
+   hi:"Stomach ki wall ek mota mucus layer banati hai jo lining ko acid se bachata hai. Lining ke cells bhi har kuch din mein naye ban jaate hain. Agar mucus layer toot jaaye, toh ulcer ho sakta hai.",
+   hiSpeech:"Stomach की wall एक मोटा mucus layer बनाती है जो lining को acid से बचाता है. Lining के cells भी हर कुछ दिन में नए बन जाते हैं. अगर mucus layer टूट जाए, तो ulcer हो सकता है.",
+   draw: async g => {
+     const y0=300;
+     await line(g, [[DX+30,y0+60],[DX+480,y0+60]], C.brown, 3, 'doubt', 400, false);
+     await write(g, DX+30, y0+92, [['stomach wall','brown']], {size:21}, 'doubt');
+     await line(g, [[DX+30,y0+30],[DX+120,y0+22],[DX+210,y0+34],[DX+300,y0+22],[DX+390,y0+34],[DX+480,y0+26]], C.green, 3, 'doubt', 500, false);
+     await write(g, DX+330, y0+5, [['mucus layer','green']], {size:21}, 'doubt');
+     for (let k=0;k<4;k++) await write(g, DX+60+k*100, y0-60+(k%2)*22, [['HCl','red']], {size:21, ms:150}, 'doubt');
+     await dLines(g, 470, [[['Thick ',''],['mucus','green'],[' shields the lining.','']],[['Lining cells renew every few days.','']],[['Mucus breaks down ',''],['→','red'],[' ulcer','red']]]);
+   }},
+ { step:3, organ:'stomach', q:{en:'What exactly is chyme?', hi:'Chyme exactly kya hota hai?'}, keys:['chyme','semi','liquid','paste'],
+   en:"Chyme is the thick, semi-liquid paste the stomach makes by churning food with gastric juice, which is acid plus enzymes. It is released slowly into the small intestine, a little at a time.",
+   hi:"Chyme ek gaadha, semi-liquid paste hai jo stomach khane ko gastric juice, yaani acid aur enzymes ke saath churn karke banata hai. Ye thoda thoda karke small intestine mein chhoda jaata hai.",
+   hiSpeech:"Chyme एक गाढ़ा, semi-liquid paste है जो stomach खाने को gastric juice, यानी acid और enzymes के साथ churn करके बनाता है. ये थोड़ा थोड़ा करके small intestine में छोड़ा जाता है.",
+   draw: async g => {
+     await dLines(g, 200, [[['food','brown'],[' + ',''],['gastric juice','red']],[['(acid + enzymes)','']]]);
+     await line(g, [[DX+120,250],[DX+120,300]], C.ink, 2, 'doubt', 250);
+     await write(g, DX+60, 340, [['churning','purple']], {size:23}, 'doubt');
+     await line(g, [[DX+120,355],[DX+120,400]], C.ink, 2, 'doubt', 250);
+     await write(g, DX+70, 440, [['chyme','blue']], {size:30, bold:true}, 'doubt');
+     await dLines(g, 510, [[['Semi-liquid paste, released ',''],['slowly','blue']],[['into the small intestine.','']]]);
+   }},
+ { step:4, organ:'small', q:{en:'How can it absorb so much?', hi:'Small intestine itna absorb kaise kar leti hai?'}, keys:['absorb','absorption','villi','surface','kaise'],
+   en:"The inner wall of the small intestine is covered with millions of tiny finger-like projections called villi. They increase the surface area enormously, and each villus has blood capillaries that take in the nutrients.",
+   hi:"Small intestine ki andar ki wall pe laakhon chhote finger jaise projections hote hain jinhe villi kehte hain. Ye surface area bahut badha dete hain, aur har villus mein blood capillaries hoti hain jo nutrients le leti hain.",
+   hiSpeech:"Small intestine की अंदर की wall पे लाखों छोटे finger जैसे projections होते हैं जिन्हें villi कहते हैं. ये surface area बहुत बढ़ा देते हैं, और हर villus में blood capillaries होती हैं जो nutrients ले लेती हैं.",
+   draw: async g => {
+     const pts=[]; const y=420;
+     for (let k=0;k<6;k++) { const x=DX+40+k*72; pts.push([x,y],[x+6,y-120],[x+30,y-140],[x+54,y-120],[x+60,y]); }
+     await line(g, pts, C.small, 2.6, 'doubt', 900, false);
+     for (let k=0;k<6;k++) { const x=DX+70+k*72; await line(g, [[x-8,y],[x-8,y-105],[x+8,y-105],[x+8,y]], C.red, 1.6, 'doubt', 160, false); }
+     await write(g, DX+30, 250, [['villi','small']], {size:25, bold:true}, 'doubt');
+     await write(g, DX+330, 460, [['capillaries','red']], {size:21}, 'doubt');
+     await dLines(g, 530, [[['Millions of ',''],['villi','blue'],[' = huge surface area','']],[['Nutrients enter ',''],['capillaries','red'],[' in each villus','']]]);
+   }},
+ { step:5, organ:'liver', q:{en:'How does bile break down fat?', hi:'Bile fat ko kaise todta hai?'}, keys:['bile','fat','emulsif','todta'],
+   en:"Bile has no enzymes. It emulsifies fat: it breaks big fat drops into many tiny droplets. That gives the pancreatic enzyme lipase much more surface to work on.",
+   hi:"Bile mein koi enzyme nahi hota. Ye fat ko emulsify karta hai: bade fat drops ko bahut saare chhote droplets mein tod deta hai. Isse pancreas ke enzyme lipase ko kaam karne ke liye zyada surface milta hai.",
+   hiSpeech:"Bile में कोई enzyme नहीं होता. ये fat को emulsify करता है: बड़े fat drops को बहुत सारे छोटे droplets में तोड़ देता है. इससे pancreas के enzyme lipase को काम करने के लिए ज़्यादा surface मिलता है.",
+   draw: async g => {
+     await dCircle(g, DX+90, 300, 55, C.orange);
+     await write(g, DX+60, 380, [['big fat drop','orange']], {size:20}, 'doubt');
+     await line(g, [[DX+165,300],[DX+235,300]], C.green, 2.2, 'doubt', 300);
+     await write(g, DX+170, 285, [['bile','green']], {size:21}, 'doubt');
+     for (let k=0;k<10;k++) await dCircle(g, DX+270+(k%4)*44+(Math.floor(k/4)%2)*20, 255+Math.floor(k/4)*40, 13, C.orange);
+     await dLines(g, 470, [[['Bile ',''],['emulsifies','blue'],[' (no enzymes!)','']],[['More surface for ',''],['lipase','blue'],[' to act','']]]);
+   }},
+ { step:6, organ:'appendix', q:{en:'What does the appendix do?', hi:'Appendix ka kya kaam hai?'}, keys:['appendix','appendicitis'],
+   en:"The appendix is a small pouch at the start of the large intestine. In humans it plays little role in digestion, but it may store helpful gut bacteria. If it gets blocked and inflamed, that's appendicitis.",
+   hi:"Appendix large intestine ki shuruaat mein ek chhota pouch hai. Insaano mein digestion mein iska role kam hai, par ye helpful gut bacteria store kar sakta hai. Block hoke sooj jaaye toh use appendicitis kehte hain.",
+   hiSpeech:"Appendix large intestine की शुरुआत में एक छोटा pouch है. इंसानों में digestion में इसका role कम है, पर ये helpful gut bacteria store कर सकता है. Block होके सूज जाए तो उसे appendicitis कहते हैं.",
+   draw: async g => {
+     await dLines(g, 200, [[['Small pouch at the start of the','']],[['large intestine','purple']],[['Little digestive role in humans','']],[['May store ',''],['good gut bacteria','green']],[['Blocked + inflamed ',''],['→','red'],[' appendicitis','red']]]);
+   }},
+ { step:7, organ:'rectum', q:{en:'Why is fibre important?', hi:'Fibre kyun zaroori hai?'}, keys:['fibre','fiber','constipation'],
+   en:"Fibre is the part of plant food we can't digest. It adds bulk to waste and holds water, so waste moves smoothly through the large intestine and you don't get constipated.",
+   hi:"Fibre plant food ka wo hissa hai jo hum digest nahi kar paate. Ye waste ko bulk deta hai aur paani pakad ke rakhta hai, isse waste large intestine mein smoothly chalta hai aur constipation nahi hota.",
+   hiSpeech:"Fibre plant food का वो हिस्सा है जो हम digest नहीं कर पाते. ये waste को bulk देता है और पानी पकड़ के रखता है, इससे waste large intestine में smoothly चलता है और constipation नहीं होता.",
+   draw: async g => {
+     await dLines(g, 200, [[['Fibre','green'],[' = plant food we can\'t digest','']],[['Adds ',''],['bulk','blue'],[' + holds ',''],['water','blue']],[['Waste moves smoothly ',''],['→','red'],[' no constipation','']]]);
+   }},
+ { step:8, organ:'small', q:{en:'Where does most digestion happen?', hi:'Sabse zyada digestion kahan hota hai?'}, keys:['most','zyada','where','kahan','main'],
+   en:"In the small intestine. It's the main site of chemical digestion and absorption, helped by bile from the liver and enzymes from the pancreas.",
+   hi:"Small intestine mein. Ye chemical digestion aur absorption ka main site hai, jisme liver ka bile aur pancreas ke enzymes help karte hain.",
+   hiSpeech:"Small intestine में. ये chemical digestion और absorption का main site है, जिसमें liver का bile और pancreas के enzymes help करते हैं.",
+   draw: async g => {
+     await dLines(g, 200, [[['Small intestine','blue']],[['Main site of chemical digestion','']],[['and absorption','']],[['helped by ',''],['bile','green'],[' + ',''],['pancreatic enzymes','orange']]]);
+   }},
+];
+
+async function dLines(g, y, lines) { for (const l of lines) { await write(g, DX+30, y, l, {size:22}, 'doubt'); y += 32; } }
+async function dCircle(g, cx, cy, r, color) {
+  const c = el('circle',{cx, cy, r, fill:'none', stroke:color, 'stroke-width':2.2}, g);
+  const L = 2*Math.PI*r; c.style.strokeDasharray=L; c.style.strokeDashoffset=L;
+  await tween(Math.min(400, 120+r*4), k=>c.style.strokeDashoffset=L*(1-k), 'doubt');
+}
+async function chain(g, x, y, n, color) {
+  for (let k=0;k<n;k++) { await dCircle(g, x+k*34, y, 11, color); if (k) await line(g, [[x+k*34-23,y],[x+k*34-11,y]], color, 2, 'doubt', 80, false); }
+}
+
+function doubtsFor(i) { return DOUBTS.filter(d => d.step===i || d.step===i-1).slice(-3); }
+function matchDoubt(text) {
+  const t = text.toLowerCase(); let best=null, score=0;
+  for (const d of DOUBTS) { const s = d.keys.filter(k=>t.includes(k)).length; if (s>score) { score=s; best=d; } }
+  return best;
+}
+
+// ---- chat UI for doubts (typed, not spoken) ----
+const T = (en, hi) => lang==='english' ? en : hi;
+function addMsg(who, text) {
+  const m = document.createElement('div'); m.className = 'msg ' + who; m.textContent = text;
+  $('chatLog').appendChild(m); $('chatLog').scrollTop = $('chatLog').scrollHeight; return m;
+}
+function addTyping() { const m = addMsg('bot typing', ''); m.innerHTML = '<span></span><span></span><span></span>'; m.setAttribute('aria-label', 'Brofessor is typing'); return m; }
+function setReplies(items) {
+  const box = $('chatReplies'); box.innerHTML = '';
+  for (const [label, fn, cls] of items) {
+    const b = document.createElement('button'); b.type='button'; b.className = 'chip' + (cls ? ' '+cls : ''); b.textContent = label; b.onclick = fn; box.appendChild(b);
+  }
+}
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function suggestReplies() {
+  setReplies(doubtsFor(lectureStep < 0 ? 0 : lectureStep).map(d => { const q = T(d.q.en, d.q.hi); return [q, () => answer(d, q)]; })
+    .concat([[T('Never mind, continue', 'Kuch nahi, aage badho'), cancelDoubt, 'ghost']]));
+}
+function openDoubt() {
+  if (!started || inDoubt) return;
+  inDoubt = true; paused = true; setPlayIcon(); stopVoice(); setCaption('');
+  $('play').disabled = true; $('skip').disabled = true; $('askBtn').disabled = true;
+  $('chat').hidden = false; document.querySelector('.room').classList.add('chatting');
+  addMsg('sys', T(`Class paused at "${CHAPTERS[Math.max(0,lectureStep)]}"`, `Class "${CHAPTERS[Math.max(0,lectureStep)]}" pe ruki hai`));
+  addMsg('bot', T('Sure, what is your doubt?', 'Haan bolo, kya doubt hai?'));
+  suggestReplies();
+  $('chatInput').disabled = false; setTimeout(()=>$('chatInput').focus(), 0);
+}
+let answering = false, doubtCount = 0;
+async function answer(d, asked) {
+  if (answering) return; answering = true;
+  addMsg('me', asked); doubtCount++; setReplies([]); $('chatInput').disabled = true;
+  const typing = addTyping();
+  clearDoubtSheet(); doubtAlive = true;
+  const g = el('g',{id:'doubtSheet'}, $('board'));
+  const panel = el('rect',{x:DX, y:12, width:DW, height:976, fill:'#fbfbf8', opacity:0}, g);
+  await tween(250, k=>panel.setAttribute('opacity', k), 'doubt');
+  await line(g, [[DX,14],[DX,986]], C.purple, 2.5, 'doubt', 300, false);
+  await write(g, DX+30, 70, [['Doubt','purple']], {size:30, bold:true}, 'doubt');
+  await write(g, DX+30, 115, [[asked.length > 40 ? asked.slice(0,38)+'…' : asked,'']], {size:22, ms:500}, 'doubt');
+  await line(g, [[DX+30,138],[DX+DW-30,138]], C.purple, 1.5, 'doubt', 250, false);
+  typing.remove();
+  if (!d) {
+    addMsg('bot', T("In this demo I can only answer the suggested doubts. Live answers to any question come with the Brofessor backend (Phase 6).", "Is demo mein main sirf suggested doubts ka jawab de sakta hoon. Kisi bhi sawaal ka live jawab Brofessor backend ke saath aayega (Phase 6)."));
+    await dLines(g, 200, [[['Live answers for any question','']],[['need the backend (Phase 6).','']],[['Try a ',''],['suggested doubt','blue'],[' for now.','']]]);
+    answering = false; $('chatInput').disabled = false;
+    suggestReplies(); return;
+  }
+  addMsg('bot', T(d.en, d.hi));
+  if (d.organ) {
+    const [cx,cy] = B(DATA.organs[d.organ].centroid);
+    const r = d.organ==='small' ? 120 : d.organ==='esophagus' ? 30 : 48;
+    const e = el('ellipse',{cx, cy, rx:r*0.9, ry:d.organ==='esophagus'?140:r*0.75, fill:'none', stroke:C.purple, 'stroke-width':3, 'stroke-dasharray':'8 6'}, g);
+    e.style.opacity = 0; await tween(300, k=>e.style.opacity=k, 'doubt');
+  }
+  await d.draw(g);
+  addMsg('bot', T('I sketched it on the board too. Is it clear now?', 'Board pe bhi bana diya. Ab clear hua?'));
+  answering = false; $('chatInput').disabled = false;
+  setReplies([[T('Yes, clear. Continue the class', 'Haan, clear hai. Aage badho'), resolveDoubt, 'go'], [T('Still unclear', 'Abhi bhi doubt hai'), followUp]]);
+}
+function followUp() {
+  addMsg('me', T('Still unclear', 'Abhi bhi doubt hai'));
+  addMsg('bot', T('No problem. What part is unclear? Type it or pick one.', 'Koi baat nahi. Kya unclear hai? Type karo ya neeche se chuno.'));
+  suggestReplies(); $('chatInput').focus();
+}
+function clearDoubtSheet() { const s = $('doubtSheet'); if (s) s.remove(); }
+function closeChat() {
+  $('chat').hidden = true; document.querySelector('.room').classList.remove('chatting');
+  $('play').disabled = false; $('skip').disabled = false; $('askBtn').disabled = false;
+  setReplies([]); $('chatInput').disabled = true;
+  const n = doubtCount;
+  $('askBtn').lastChild.textContent = n ? T(`Ask a doubt (${n} asked)`, `Doubt poocho (${n} poochhe)`) : T('Ask a doubt', 'Doubt poocho');
+}
+async function resumeLecture(bridgeEn, bridgeHi, bridgeHiS) {
+  inDoubt = false;
+  if (classOver) return;
+  paused = false; setPlayIcon();
+  const st = steps[lectureStep];
+  if (st && lectureSpeech) lectureSpeech.p = speak({key:st.key, en:bridgeEn + st.en, hi:bridgeHi + st.hi, hiSpeech:bridgeHiS + st.hiSpeech}, runId);
+  if (doubtResolve) { doubtResolve(); doubtResolve = null; }
+}
+async function resolveDoubt() {
+  addMsg('me', T('Yes, clear', 'Haan, clear hai')); setReplies([]);
+  addMsg('bot', T('Great, back to the lesson.', 'Badhiya, wapas lesson pe chalte hain.'));
+  await sleep(700);
+  doubtAlive = true;
+  const s = $('doubtSheet');
+  if (s) { await tween(300, k=>s.setAttribute('opacity', 1-k), 'doubt').catch(()=>{}); s.remove(); }
+  doubtAlive = false; closeChat();
+  resumeLecture('Okay, back to the lesson. ', 'Chalo, wapas lesson pe. ', 'चलो, वापस lesson पे. ');
+}
+function cancelDoubt() {
+  if ($('chat').hidden) return;
+  addMsg('me', T('Never mind, continue', 'Kuch nahi, aage badho'));
+  clearDoubtSheet(); doubtAlive = false; closeChat();
+  resumeLecture('', '', '');
+}
+
+const doubtGate = () => inDoubt ? new Promise(r => doubtResolve = r) : Promise.resolve();
+async function awaitLectureSpeech() {
+  while (true) {
+    const p = lectureSpeech.p; await p;
+    if (inDoubt) { await doubtGate(); continue; }
+    if (p === lectureSpeech.p) return;
+  }
+}
+
+steps.forEach((st, i) => st.key = 's' + i);
 // ---------- player ----------
 const CHAPTERS = ['Intro','Mouth','Esophagus','Stomach','Small intestine','Helpers','Large intestine','Rectum & anus','Recap'];
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -498,20 +831,24 @@ function setPlayIcon() { $('playIcon').innerHTML = paused ? PLAY : PAUSE; $('pla
 function clearBoard() { ['diagram','labels','notes'].forEach(k=>$(k).innerHTML=''); clipN=0; }
 
 async function run(from=0) {
+  if (inDoubt) cancelDoubt();
   const id = ++runId;
-  speechSynthesis.cancel(); clearBoard(); paused = false; setPlayIcon();
+  stopVoice(); clearBoard(); paused = false; setPlayIcon();
   try {
     for (let i=0;i<steps.length;i++) {
       const catchUp = i < from;
       skipping = catchUp;
       markChapters(catchUp ? from : i);
       if (catchUp) { await steps[i].run(id); continue; }
-      const sp = speak(steps[i], id);
+      lectureStep = i; classOver = false;
+      lectureSpeech = { p: speak(steps[i], id) };
       await steps[i].run(id);
-      if (!skipping) await sp; else speechSynthesis.cancel();
+      if (!skipping) await awaitLectureSpeech(); else stopVoice();
       skipping = false;
       await wait(500, id);
+      if (inDoubt) await doubtGate();
     }
+    classOver = true;
     chapEls.forEach(b=>{ b.classList.add('done'); b.classList.remove('now'); });
     setCaption(lang==='english' ? 'Class over. Pick any step below to replay it.' : 'Class khatam. Neeche koi bhi step dabake dobara dekho.');
     paused = true; setPlayIcon();
@@ -527,11 +864,11 @@ $('startBtn').onclick = () => { start(); run(0); };
 $('play').onclick = () => {
   if (!started) { start(); run(0); return; }
   paused = !paused; setPlayIcon();
-  if ('speechSynthesis' in window) paused ? speechSynthesis.pause() : speechSynthesis.resume();
+  paused ? pauseVoice() : resumeVoice();
 };
-$('skip').onclick = () => { if (started) { skipping = true; speechSynthesis.cancel(); } };
+$('skip').onclick = () => { if (started) { skipping = true; stopVoice(); } };
 const SPEEDS = [1, 1.25, 1.5, 2];
-$('speed').onclick = () => { speed = SPEEDS[(SPEEDS.indexOf(speed)+1) % SPEEDS.length]; $('speed').textContent = speed + 'x'; };
+$('speed').onclick = () => { speed = SPEEDS[(SPEEDS.indexOf(speed)+1) % SPEEDS.length]; $('speed').textContent = speed + 'x'; if (curAudio) curAudio.playbackRate = speed; };
 document.querySelectorAll('.lang button').forEach(b => b.onclick = () => {
   lang = b.dataset.lang;
   document.querySelectorAll('.lang button').forEach(x => x.setAttribute('aria-pressed', String(x===b)));
@@ -540,9 +877,19 @@ $('voice').onclick = () => {
   voiceOn = !voiceOn; $('voice').setAttribute('aria-pressed', String(voiceOn));
   $('voice').setAttribute('aria-label', voiceOn ? 'Mute voice' : 'Unmute voice');
   $('voiceIcon').innerHTML = voiceOn ? '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/>' : '<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9l5 6M21 9l-5 6"/>';
-  if (!voiceOn) speechSynthesis.cancel();
+  if (!voiceOn) stopVoice();
+};
+$('askBtn').onclick = openDoubt;
+$('chatForm').onsubmit = e => {
+  e.preventDefault(); const t = $('chatInput').value.trim(); if (!t || answering) return;
+  $('chatInput').value = '';
+  if (/^(ok|okay|got it|clear|samajh aa gaya|samjh aa gaya|haan clear)/i.test(t) && $('doubtSheet')) { resolveDoubt(); return; }
+  answer(matchDoubt(t), t);
 };
 document.addEventListener('keydown', e => {
+  if (e.target.closest('input')) { if (e.key==='Escape' && !answering && !$('doubtSheet')) cancelDoubt(); return; }
+  if (inDoubt) return;
+  if (e.key==='d' || e.key==='D') { e.preventDefault(); openDoubt(); return; }
   if (e.target.closest('button') && e.code==='Space') return;
   if (e.code==='Space') { e.preventDefault(); $('play').click(); }
   if (e.code==='ArrowRight') $('skip').click();
