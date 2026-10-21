@@ -1,0 +1,50 @@
+{
+  "title": "Binary Search Tree: Insertion",
+  "language": "hinglish",
+  "board": { "theme": "whiteboard" },
+  "steps": [
+    {
+      "id": "s1",
+      "narration_display": "Dekho, BST mein har node ke left side chhote values aur right side bade values hote hain.",
+      "narration_speech": "देखो, BST में हर node के left side छोटे values और right side बड़े values होते हैं.",
+      "actions": [
+        { "type": "heading", "text": "BST Insertion" },
+        { "type": "side_note", "text": "Rule: chhota -> left, bada -> right" },
+        {
+          "type": "tree",
+          "id": "t1",
+          "nodes": ["50", "30", "70", "20", "40"],
+          "edges": [["50", "30"], ["50", "70"], ["30", "20"], ["30", "40"]]
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "narration_display": "Ab hume 35 insert karna hai. Hamesha root se start karte hain.",
+      "narration_speech": "अब हमें 35 insert करना है. हमेशा root से start करते हैं.",
+      "actions": [
+        { "type": "write", "text": "Insert 35" },
+        { "type": "highlight", "target": "t1.50", "style": "circle" }
+      ]
+    },
+    {
+      "id": "s3",
+      "narration_display": "35, 50 se chhota hai, toh left jao. Ab 30 pe aaye. 35, 30 se bada hai, toh right jao.",
+      "narration_speech": "35, 50 से छोटा है, तो left जाओ. अब 30 पे आए. 35, 30 से बड़ा है, तो right जाओ.",
+      "actions": [
+        { "type": "arrow", "from": "t1.50", "to": "t1.30", "label": "35 < 50" },
+        { "type": "arrow", "from": "t1.30", "to": "t1.40", "label": "35 > 30" }
+      ]
+    },
+    {
+      "id": "s4",
+      "narration_display": "40 se 35 chhota hai aur 40 ka left khali hai. Toh 35 yahin baith jayega.",
+      "narration_speech": "40 से 35 छोटा है और 40 का left खाली है. तो 35 यहीं बैठ जाएगा.",
+      "actions": [
+        { "type": "tree_add", "target": "t1", "node": "35", "parent": "40", "side": "left" },
+        { "type": "highlight", "target": "t1.35", "style": "circle", "color": "green" },
+        { "type": "side_note", "text": "Time: O(h), h = height" }
+      ]
+    }
+  ]
+}
