@@ -115,4 +115,9 @@ Every significant technical decision goes here: what was chosen, what the option
 - **Start screen:** lesson outline + level (Basics / Standard / Quick revision sets the pace). **End screen:** quick 3-question check, doubts recap, replay, save notes as PDF (print), transcript.
 - **Polish:** press feedback on controls, message enter animation, swipe-down to close sheets on mobile, hand-drawn icon set and marker-drawn logo (replacing generic icons), reduced-motion draws instantly.
 
-## D-015: (next decision)
+## D-015: Hinglish is a class-narration option only
+- The language switch ("Class in: Hinglish / English") changes only the class itself: the voice, the captions and the transcript.
+- Everything else is always English: the UI, the doubt chat (questions, answers, suggestions), the board writing, the quiz and the end screen.
+- Why: the board and the chat are the written record students revise from, so they stay in one consistent language; Hinglish is there to make the spoken explanation feel natural.
+
+## D-016: (next decision)

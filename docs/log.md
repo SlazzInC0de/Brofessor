@@ -17,5 +17,6 @@ Format: three lines a day. Done / Blocked on / Next.
 
 ## Day 3 (22 Oct 2026)
 - Done: Player v3 (D-014): pen cursor, single-line handwriting (futural), camera follow, board pages + recap flow chart, point & ask, doubt pins, sliding doubt sheet, timeline, karaoke captions, transcript, start/end screens, hand-drawn icons and logo, captions toggle, reduced motion.
+- Hinglish limited to class narration; UI and doubt chat always English (D-015).
 - Blocked on: real neural voice files (needs `generate_edge.py` or a Sarvam key run locally).
 - Next:
