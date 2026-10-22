@@ -129,4 +129,8 @@ Every significant technical decision goes here: what was chosen, what the option
 - Sample lessons: BST insertion, DFA (even 0s), interior angles of polygons, digestive system. All four run end to end in Playwright on desktop and mobile with no console errors.
 - The single-file demo in `playground/` stays as the reference for features not yet ported (doubt chat, point & ask: Phase 6).
 
-## D-017: (next decision)
+## D-017: Logo
+- A marker-drawn **B wearing a tilted graduation cap** with a red tassel: "bro" + "professor" in one mark. Ink + red from the board palette, on a white tile.
+- Master file `docs/assets/logo.svg`; also the app favicon (`frontend/app/icon.svg`) and the header logo (B draws itself on load).
+
+## D-018: (next decision)

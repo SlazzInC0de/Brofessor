@@ -1,3 +1,5 @@
+<img src="docs/assets/logo.svg" width="96" alt="Brofessor logo">
+
 # BROFESSOR
 
 > Give it any topic, or upload your material (PDF, PPT, notes). Brofessor teaches it on a whiteboard the way a professor does: writing, sketching and explaining out loud. In English or Hinglish.

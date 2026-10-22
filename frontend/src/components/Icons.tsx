@@ -13,4 +13,15 @@ export const Lines = (p: P) => <svg {...base} {...p}><path d="M5.2 6.3c4.6-.2 9.
 export const CC = (p: P) => <svg {...base} {...p}><path d="M3.6 6.4c5.6-.3 11.2-.2 16.8.1.3 3.8.3 7.6 0 11.3-5.6.3-11.2.3-16.8 0-.3-3.8-.3-7.6 0-11.4z" /><path d="M10.4 10.2c-1-.9-3-.6-3.2 1.2-.2 1.8 1.6 2.9 3.2 1.9M16.6 10.2c-1-.9-3-.6-3.2 1.2-.2 1.8 1.6 2.9 3.2 1.9" /></svg>;
 export const Target = (p: P) => <svg {...base} {...p}><path d="M12 5.3c3.8-.1 6.9 3 6.8 6.8 0 3.7-3.1 6.7-6.9 6.7-3.7 0-6.7-3.1-6.6-6.8.1-3.7 3-6.7 6.7-6.7z" /><path d="M12 9.6c1.3 0 2.4 1.1 2.4 2.4 0 1.3-1.1 2.4-2.4 2.4-1.3 0-2.4-1.1-2.4-2.4 0-1.3 1.1-2.4 2.4-2.4z" /><path d="M12 1.9v2.6M12 19.6v2.5M1.9 12h2.6M19.5 12h2.6" /></svg>;
 export const Back = (p: P) => <svg {...base} {...p}><path d="M14.6 5.6c-2.2 2.1-4.3 4.2-6.3 6.4 2 2.2 4.1 4.3 6.4 6.3" /></svg>;
-export const Logo = () => <svg viewBox="0 0 24 24" aria-hidden><path d="M8.6 4.8c-.3 4.7-.2 9.4.2 14M8.8 5.3c3.6-.8 7-.1 6.9 2.8-.1 2.3-2.6 3.4-6.4 3.6 4.4-.4 7.7.6 7.6 3.6-.1 3-4.1 4-8 3.4" /></svg>;
+/** Brofessor mark: a marker-drawn B wearing a tilted graduation cap (bro + professor). */
+export const Logo = () => (
+  <svg viewBox="0 0 100 100" aria-hidden>
+    <g transform="rotate(-12 50 26)">
+      <path d="M18 28 L50 16 L82 28 L50 40 Z" className="cap" />
+      <path d="M34 33v9c10 5 22 5 32 0v-9" className="band" />
+      <path d="M78 29.5c1 7 1.4 13 .6 19" className="tassel" />
+      <circle cx="78.8" cy="51" r="3.4" className="knot" />
+    </g>
+    <path className="b" d="M30 18c-1.2 21-1 42 .8 63M31 20c16-3.6 31-.4 30.6 12.6-.4 10.4-11.6 15.2-28.6 16 19.6-1.8 34.4 2.6 34 16-.4 13.4-18.4 17.8-35.8 15" transform="translate(14 25) scale(.72)" />
+  </svg>
+);

@@ -17,9 +17,13 @@ button { font:inherit; color:inherit; }
 
 /* top bar */
 .top { height:56px; display:flex; align-items:center; gap:12px; padding:0 20px; background:var(--surface); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; }
-.logo { width:28px; height:28px; border-radius:8px; background:var(--text); display:grid; place-items:center; flex:none; }
-.logo svg { width:20px; height:20px; }
-.logo path { stroke:#fff; stroke-width:2.3; fill:none; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:40; stroke-dashoffset:40; animation:logo-draw .9s .2s cubic-bezier(.4,.1,.2,1) forwards; }
+.logo { width:32px; height:32px; border-radius:9px; background:#fff; border:1px solid var(--line); display:grid; place-items:center; flex:none; overflow:hidden; }
+.logo svg { width:30px; height:30px; }
+.logo .cap { fill:var(--text); }
+.logo .band { fill:none; stroke:var(--text); stroke-width:4; stroke-linejoin:round; }
+.logo .tassel { fill:none; stroke:#d6333f; stroke-width:3.2; stroke-linecap:round; }
+.logo .knot { fill:#d6333f; }
+.logo .b { fill:none; stroke:var(--text); stroke-width:7; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:240; stroke-dashoffset:240; animation:logo-draw 1s .15s cubic-bezier(.4,.1,.2,1) forwards; }
 @keyframes logo-draw { to { stroke-dashoffset:0; } }
 .crumb { display:flex; align-items:baseline; gap:8px; min-width:0; }
 .crumb b { font-weight:600; }
