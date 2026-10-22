@@ -101,4 +101,18 @@ Every significant technical decision goes here: what was chosen, what the option
 - In the product the backend generates and caches audio per step, so a lesson is paid for once and replayed for free.
 - Doubts are text-only (D-012), so they don't need TTS.
 
-## D-014: (next decision)
+## D-014: Player v3: the board feels live, doubts are pointable
+- **Pen cursor:** a marker follows the tip of whatever is being drawn or written.
+- **Single-line handwriting:** board text is drawn stroke by stroke with the Hershey Simplex (futural) single-line font, slightly slanted and jittered so it reads like marker print. Characters the font lacks (e.g. Devanagari typed in a doubt) fall back to the Kalam font with a reveal.
+- **Camera follow:** the view zooms and pans after the pen. Always on for small screens, toggleable on desktop.
+- **Board pages:** a full board is wiped and a new page starts (the recap is now page 2, a flow chart of the food path with helper organs). Old pages stay viewable from tabs; viewing an old page pauses the lesson.
+- **Point & ask:** every drawn organ is clickable; it opens the doubt chat about that organ with matching suggestions.
+- **Doubt pins + recap:** each doubt adds a pin on the timeline step where it was asked; the end screen lists them.
+- **Doubt sheet** slides in like a fresh page instead of fading over the notes.
+- **Timeline:** segmented progress bar with per-step fill and hover titles; click to jump.
+- **Karaoke captions:** the current word is highlighted (speech boundary events, audio time, or a time estimate).
+- **Transcript panel** with click-to-jump; **captions toggle**.
+- **Start screen:** lesson outline + level (Basics / Standard / Quick revision sets the pace). **End screen:** quick 3-question check, doubts recap, replay, save notes as PDF (print), transcript.
+- **Polish:** press feedback on controls, message enter animation, swipe-down to close sheets on mobile, hand-drawn icon set and marker-drawn logo (replacing generic icons), reduced-motion draws instantly.
+
+## D-015: (next decision)

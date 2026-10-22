@@ -4,7 +4,7 @@ Standalone experiments. Each HTML file opens directly in a browser.
 
 | File | Day | What it tests |
 |---|---|---|
-| 00-digestive-demo.html | 1-2 | Full proof of concept: traced figure + labels + numbered notes + narration (English/Hinglish) + doubt chat |
+| 00-digestive-demo.html | 1-3 | Full proof of concept: traced figure + labels + numbered notes + narration (English/Hinglish) + doubt chat |
 | 01-stroke.html | 3 | SVG stroke-dashoffset animation |
 | 02-rough.html | 4 | rough.js sketchy shapes |
 | 03-freehand.html | 4 | perfect-freehand strokes |
@@ -17,7 +17,9 @@ A reference anatomy figure was turned into a whiteboard lesson without pasting a
 2. `trace/strokes.py`: traces each organ's outline + skeletonised inner edges -> `strokes.json`
 3. The HTML player draws outlines stroke by stroke (D-008: outline first, detail only for the small intestine coils), writes labels and numbered notes, and narrates each step with the browser's speech API.
 
-Doubts: press `D` or Ask a doubt. The class pauses, you type in the chat, Brofessor answers in text and on a doubt sheet, and the class resumes only after you confirm. The demo has pre-scripted doubts for each step; free-text questions are matched by keywords.
+Player: pen cursor, single-line handwriting, camera follow (target icon), board pages (tabs bottom-right), click any organ to ask about it, timeline with doubt pins, karaoke captions (CC), transcript, start screen with level, end screen with quiz and notes PDF.
+
+Doubts: press `D`, click an organ, or Ask a doubt. The class pauses, you type in the chat, Brofessor answers in text and on a doubt sheet, and the class resumes only after you confirm. The demo has pre-scripted doubts for each step; free-text questions are matched by keywords.
 
 Voice: the player plays `audio/<lang>/<step>.mp3` when present. Generate them with Sarvam:
 ```bash
