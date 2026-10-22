@@ -120,4 +120,13 @@ Every significant technical decision goes here: what was chosen, what the option
 - Everything else is always English: the UI, the doubt chat (questions, answers, suggestions), the board writing, the quiz and the end screen.
 - Why: the board and the chat are the written record students revise from, so they stay in one consistent language; Hinglish is there to make the spoken explanation feel natural.
 
-## D-016: (next decision)
+## D-016: Phase 1-2 architecture: Next.js player driven by Board DSL v1
+- `frontend/` is a Next.js (App Router, TypeScript) static export. The board engine is plain TypeScript working on SVG (imperative drawing is simpler and faster than React for stroke animation); React only renders the shell (top bar, captions, controls, transcript, start/end screens).
+- Lessons are JSON files validated by a Zod schema (`src/dsl/schema.ts`, spec in `docs/dsl.md`) before playing; `npm run validate` checks all of them. This is the contract the Phase 3 LLM will write to.
+- Layout engine: region presets (`classic`, `figure-center`) with top-down allocation; when a region is full the board wipes to a new page automatically. Templates measure themselves first and are scaled to fit.
+- Smart templates: tree (+ tree_add, BST layout), array, table, flowchart and automaton (dagre layout), turtle (Logo subset, for geometry), traced figure (+ figure_part with collision-free auto labels).
+- References (`t1.50`, `T.r0c1`, `fig.stomach`) let arrows, labels and highlights point at parts without coordinates.
+- Sample lessons: BST insertion, DFA (even 0s), interior angles of polygons, digestive system. All four run end to end in Playwright on desktop and mobile with no console errors.
+- The single-file demo in `playground/` stays as the reference for features not yet ported (doubt chat, point & ask: Phase 6).
+
+## D-017: (next decision)

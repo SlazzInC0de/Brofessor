@@ -1,0 +1,416 @@
+{
+ "id": "digestive-system",
+ "title": "Human Digestive System",
+ "subject": "Biology",
+ "layout": "figure-center",
+ "languages": [
+  "hinglish",
+  "english"
+ ],
+ "credit": "Figure traced from an Encyclopaedia Britannica illustration (research use).",
+ "teaching_profile": {
+  "subject_type": "biology",
+  "content_type": "anatomy",
+  "level": "school"
+ },
+ "steps": [
+  {
+   "id": "s0",
+   "title": "Intro",
+   "narration": {
+    "en": "Today we'll learn the human digestive system: how food is broken down into simple nutrients that our body can absorb for energy, growth and repair.",
+    "hi": "Aaj hum human digestive system padhenge: khana kaise tootkar simple nutrients banta hai, jo body energy, growth aur repair ke liye absorb karti hai.",
+    "hi_speech": "आज हम human digestive system पढ़ेंगे: खाना कैसे टूटकर simple nutrients बनता है, जो body energy, growth और repair के लिए absorb करती है."
+   },
+   "actions": [
+    {
+     "type": "heading",
+     "text": "Human Digestive System",
+     "region": "right"
+    },
+    {
+     "type": "write",
+     "text": "Food → simple *nutrients* for energy, growth & repair",
+     "region": "right"
+    },
+    {
+     "type": "traced_figure",
+     "id": "fig",
+     "src": "/lessons/assets/digestive-figure.json"
+    }
+   ]
+  },
+  {
+   "id": "s1",
+   "title": "Mouth",
+   "narration": {
+    "en": "It starts in the mouth. Teeth chew the food, that is mechanical digestion. Saliva from the salivary glands starts breaking down starches, which are carbohydrates.",
+    "hi": "Shuruaat mouth se hoti hai. Teeth khana chabate hain, ye mechanical digestion hai. Salivary glands ka saliva starch, yaani carbohydrates ko todna shuru karta hai.",
+    "hi_speech": "शुरुआत mouth से होती है. Teeth खाना चबाते हैं, ये mechanical digestion है. Salivary glands का saliva starch, यानी carbohydrates को तोड़ना शुरू करता है."
+   },
+   "actions": [
+    {
+     "type": "figure_part",
+     "figure": "fig",
+     "part": "mouth",
+     "label": "mouth"
+    },
+    {
+     "type": "figure_part",
+     "figure": "fig",
+     "part": "glands",
+     "label": "salivary glands"
+    },
+    {
+     "type": "note_block",
+     "region": "left",
+     "marker": "1",
+     "title": "Mouth",
+     "bullets": [
+      "Teeth chew food (*mechanical digestion*)",
+      "!Saliva! starts breaking down *starches*"
+     ],
+     "points_to": "fig.mouth"
+    }
+   ]
+  },
+  {
+   "id": "s2",
+   "title": "Esophagus",
+   "narration": {
+    "en": "Next, food passes the pharynx and travels down the esophagus. Muscles contract in waves to push it down. This is called peristalsis. The epiglottis stops food from entering the windpipe.",
+    "hi": "Phir khana pharynx se hokar esophagus mein neeche jaata hai. Muscles wave ki tarah contract karke usse push karti hain. Isko peristalsis kehte hain. Epiglottis khane ko windpipe mein jaane se rokta hai.",
+    "hi_speech": "फिर खाना pharynx से होकर esophagus में नीचे जाता है. Muscles wave की तरह contract करके उसे push करती हैं. इसको peristalsis कहते हैं. Epiglottis खाने को windpipe में जाने से रोकता है."
+   },
+   "actions": [
+    {
+     "type": "figure_part",
+     "figure": "fig",
+     "part": "esophagus",
+     "label": "esophagus"
+    },
+    {
+     "type": "note_block",
+     "region": "left",
+     "marker": "2",
+     "title": "Esophagus",
+     "bullets": [
+      "Wave-like muscle contractions push food down: *peristalsis*"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s3",
+   "title": "Stomach",
+   "narration": {
+    "en": "In the stomach, strong acid, that is HCl, and enzymes churn the food into a semi-liquid mix called chyme.",
+    "hi": "Stomach mein strong acid yaani HCl aur enzymes khane ko churn karke ek semi-liquid mix banate hain, jise chyme kehte hain.",
+    "hi_speech": "Stomach में strong acid यानी HCl और enzymes खाने को churn करके एक semi-liquid mix बनाते हैं, जिसे chyme कहते हैं."
+   },
+   "actions": [
+    {
+     "type": "figure_part",
+     "figure": "fig",
+     "part": "stomach",
+     "label": "stomach"
+    },
+    {
+     "type": "note_block",
+     "region": "right",
+     "marker": "3",
+     "title": "Stomach",
+     "bullets": [
+      "Strong *acid* (HCl) + *enzymes* churn food into *chyme*"
+     ],
+     "points_to": "fig.stomach"
+    }
+   ]
+  },
+  {
+   "id": "s4",
+   "title": "Small intestine",
+   "narration": {
+    "en": "The chyme moves into the small intestine. This is the main site of chemical digestion and absorption. Most vitamins, minerals and nutrients enter the bloodstream here.",
+    "hi": "Chyme small intestine mein jaata hai. Yahi chemical digestion aur absorption ka main site hai. Zyada tar vitamins, minerals aur nutrients yahin se bloodstream mein jaate hain.",
+    "hi_speech": "Chyme small intestine में जाता है. यही chemical digestion और absorption का main site है. ज़्यादा तर vitamins, minerals और nutrients यहीं से bloodstream में जाते हैं."
+   },
+   "actions": [
+    {
+     "type": "figure_part",
+     "figure": "fig",
+     "part": "small",
+     "label": "small\nintestine",
+     "detail": 18
+    },
+    {
+     "type": "note_block",
+     "region": "right",
+     "marker": "4",
+     "title": "Small Intestine",
+     "bullets": [
+      "Receives chyme, *bile* and pancreatic juices",
+      "!Main site! of digestion and absorption"
+     ],
+     "points_to": "fig.small"
+    }
+   ]
+  },
+  {
+   "id": "s5",
+   "title": "Helpers",
+   "narration": {
+    "en": "Now the helpers, called accessory organs. The liver produces bile to break down fats. The gallbladder stores this bile and releases it into the small intestine. The pancreas secretes digestive juices to break down proteins, carbohydrates and fats.",
+    "hi": "Ab helpers, jinhe accessory organs kehte hain. Liver bile banata hai jo fats todta hai. Gallbladder is bile ko store karta hai aur small intestine mein chhodta hai. Pancreas digestive juices chhodta hai jo proteins, carbohydrates aur fats todte hain.",
+    "hi_speech": "अब helpers, जिन्हें accessory organs कहते हैं. Liver bile बनाता है जो fats तोड़ता है. Gallbladder इस bile को store करता है और small intestine में छोड़ता है. Pancreas digestive juices छोड़ता है जो proteins, carbohydrates और fats तोड़ते हैं."
+   },
+   "actions": [
+    {
+     "type": "figure_part",
+     "figure": "fig",
+     "part": "liver",
+     "label": "liver"
+    },
+    {
+     "type": "figure_part",
+     "figure": "fig",
+     "part": "gallbladder",
+     "label": "gallbladder"
+    },
+    {
+     "type": "figure_part",
+     "figure": "fig",
+     "part": "pancreas",
+     "label": "pancreas"
+    },
+    {
+     "type": "note_block",
+     "region": "left",
+     "marker": "A",
+     "title": "Liver",
+     "bullets": [
+      "Makes *bile* to break down *fats*"
+     ]
+    },
+    {
+     "type": "note_block",
+     "region": "left",
+     "marker": "B",
+     "title": "Gallbladder",
+     "bullets": [
+      "Stores bile, releases it into the small intestine"
+     ]
+    },
+    {
+     "type": "note_block",
+     "region": "left",
+     "marker": "C",
+     "title": "Pancreas",
+     "bullets": [
+      "Secretes *enzymes* for proteins, carbs and fats"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s6",
+   "title": "Large intestine",
+   "narration": {
+    "en": "Leftover waste passes into the large intestine, also called the colon. Here water is reabsorbed and solid waste is formed. The appendix is a small pouch attached here.",
+    "hi": "Bacha hua waste large intestine, yaani colon mein jaata hai. Yahan paani wapas absorb hota hai aur solid waste banta hai. Appendix yahin juda ek chhota pouch hai.",
+    "hi_speech": "बचा हुआ waste large intestine, यानी colon में जाता है. यहाँ पानी वापस absorb होता है और solid waste बनता है. Appendix यहीं जुड़ा एक छोटा pouch है."
+   },
+   "actions": [
+    {
+     "type": "figure_part",
+     "figure": "fig",
+     "part": "large",
+     "label": "large\nintestine"
+    },
+    {
+     "type": "figure_part",
+     "figure": "fig",
+     "part": "appendix",
+     "label": "appendix"
+    },
+    {
+     "type": "note_block",
+     "region": "right",
+     "marker": "5",
+     "title": "Large Intestine",
+     "bullets": [
+      "!Reabsorbs water!",
+      "Forms solid waste"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s7",
+   "title": "Rectum & anus",
+   "narration": {
+    "en": "Finally, the waste is stored in the rectum and expelled from the body through the anus. This is called defecation.",
+    "hi": "Aakhir mein waste rectum mein store hota hai aur anus se body ke bahar nikalta hai. Isko defecation kehte hain.",
+    "hi_speech": "आख़िर में waste rectum में store होता है और anus से body के बाहर निकलता है. इसको defecation कहते हैं."
+   },
+   "actions": [
+    {
+     "type": "figure_part",
+     "figure": "fig",
+     "part": "rectum",
+     "label": "rectum"
+    },
+    {
+     "type": "note_block",
+     "region": "right",
+     "marker": "6",
+     "title": "Rectum and Anus",
+     "bullets": [
+      "Waste stored in the *rectum*, expelled through the *anus*"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s8",
+   "title": "Recap",
+   "narration": {
+    "en": "Quick recap. Food goes mouth, esophagus, stomach, small intestine, large intestine, rectum and anus. The liver, gallbladder and pancreas help along the way.",
+    "hi": "Quick recap. Khana jaata hai mouth, esophagus, stomach, small intestine, large intestine, rectum aur anus. Liver, gallbladder aur pancreas raaste mein help karte hain.",
+    "hi_speech": "Quick recap. खाना जाता है mouth, esophagus, stomach, small intestine, large intestine, rectum और anus. Liver, gallbladder और pancreas रास्ते में help करते हैं."
+   },
+   "actions": [
+    {
+     "type": "new_page",
+     "title": "Recap"
+    },
+    {
+     "type": "heading",
+     "text": "Recap: the path of food",
+     "region": "right"
+    },
+    {
+     "type": "flowchart",
+     "id": "path",
+     "direction": "TB",
+     "nodes": [
+      {
+       "id": "m",
+       "text": "Mouth"
+      },
+      {
+       "id": "e",
+       "text": "Esophagus"
+      },
+      {
+       "id": "s",
+       "text": "Stomach"
+      },
+      {
+       "id": "si",
+       "text": "Small intestine"
+      },
+      {
+       "id": "li",
+       "text": "Large intestine"
+      },
+      {
+       "id": "r",
+       "text": "Rectum and anus",
+       "shape": "oval"
+      },
+      {
+       "id": "lv",
+       "text": "Liver"
+      },
+      {
+       "id": "gb",
+       "text": "Gallbladder"
+      },
+      {
+       "id": "pc",
+       "text": "Pancreas"
+      }
+     ],
+     "edges": [
+      {
+       "from": "m",
+       "to": "e"
+      },
+      {
+       "from": "e",
+       "to": "s"
+      },
+      {
+       "from": "s",
+       "to": "si",
+       "label": "chyme"
+      },
+      {
+       "from": "si",
+       "to": "li"
+      },
+      {
+       "from": "li",
+       "to": "r"
+      },
+      {
+       "from": "lv",
+       "to": "gb",
+       "label": "bile"
+      },
+      {
+       "from": "gb",
+       "to": "si"
+      },
+      {
+       "from": "pc",
+       "to": "si",
+       "label": "enzymes"
+      }
+     ]
+    },
+    {
+     "type": "highlight",
+     "target": "path.si",
+     "style": "circle"
+    },
+    {
+     "type": "side_note",
+     "text": "Most digestion and absorption happens in the *small intestine*."
+    }
+   ]
+  }
+ ],
+ "quiz": [
+  {
+   "q": "Where does most absorption happen?",
+   "options": [
+    "Stomach",
+    "Small intestine",
+    "Large intestine"
+   ],
+   "answer": 1,
+   "why": "Villi give the small intestine a huge surface for absorption."
+  },
+  {
+   "q": "What does bile do?",
+   "options": [
+    "Digests proteins",
+    "Emulsifies fats",
+    "Absorbs water"
+   ],
+   "answer": 1,
+   "why": "Bile breaks fat into tiny droplets for enzymes to act on."
+  },
+  {
+   "q": "Wave-like contractions in the esophagus are called?",
+   "options": [
+    "Peristalsis",
+    "Defecation",
+    "Emulsification"
+   ],
+   "answer": 0
+  }
+ ]
+}

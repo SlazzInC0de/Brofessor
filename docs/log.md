@@ -20,3 +20,4 @@ Format: three lines a day. Done / Blocked on / Next.
 - Hinglish limited to class narration; UI and doubt chat always English (D-015).
 - Blocked on: real neural voice files (needs `generate_edge.py` or a Sarvam key run locally).
 - Next:
+- Phase 1-2 done (D-016): Next.js player in `frontend/`, Board DSL v1 with Zod validation, layout engine with auto pages, templates (tree, array, table, flowchart, automaton, turtle, traced figure), 4 sample lessons, all verified end to end.

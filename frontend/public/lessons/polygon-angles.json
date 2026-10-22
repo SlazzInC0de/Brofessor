@@ -1,0 +1,155 @@
+{
+ "id": "polygon-angles",
+ "title": "Interior Angles of Polygons",
+ "subject": "Mathematics",
+ "layout": "classic",
+ "languages": [
+  "english"
+ ],
+ "teaching_profile": {
+  "subject_type": "math",
+  "content_type": "derivation",
+  "level": "school"
+ },
+ "steps": [
+  {
+   "id": "s0",
+   "title": "Question",
+   "narration": {
+    "en": "What do the inside angles of a polygon add up to? Let us draw a few and find the pattern."
+   },
+   "actions": [
+    {
+     "type": "heading",
+     "text": "Interior angles of polygons"
+    },
+    {
+     "type": "write",
+     "text": "Sum of the inside angles of an *n*-sided polygon?"
+    }
+   ]
+  },
+  {
+   "id": "s1",
+   "title": "Triangle",
+   "narration": {
+    "en": "A triangle. Its three angles always add up to 180 degrees."
+   },
+   "actions": [
+    {
+     "type": "turtle",
+     "id": "tri",
+     "program": "rt 90 repeat 3 [fd 150 lt 120]",
+     "label": "triangle: 180°"
+    }
+   ]
+  },
+  {
+   "id": "s2",
+   "title": "Square",
+   "narration": {
+    "en": "A square has four right angles: 4 times 90 is 360 degrees."
+   },
+   "actions": [
+    {
+     "type": "turtle",
+     "id": "sq",
+     "program": "repeat 4 [fd 120 rt 90]",
+     "label": "square: 360°"
+    }
+   ]
+  },
+  {
+   "id": "s3",
+   "title": "Hexagon",
+   "narration": {
+    "en": "A hexagon can be split into 4 triangles from one corner, so 4 times 180 is 720 degrees."
+   },
+   "actions": [
+    {
+     "type": "turtle",
+     "id": "hex",
+     "program": "rt 90 repeat 6 [fd 80 lt 60]",
+     "label": "hexagon: 720°"
+    }
+   ]
+  },
+  {
+   "id": "s4",
+   "title": "Pattern",
+   "narration": {
+    "en": "Put the numbers in a table. Every extra side adds one more triangle, so 180 more degrees."
+   },
+   "actions": [
+    {
+     "type": "table",
+     "id": "P",
+     "headers": [
+      "n",
+      "triangles",
+      "sum"
+     ],
+     "rows": [
+      [
+       3,
+       1,
+       "180°"
+      ],
+      [
+       4,
+       2,
+       "360°"
+      ],
+      [
+       5,
+       3,
+       "540°"
+      ],
+      [
+       6,
+       4,
+       "720°"
+      ]
+     ],
+     "region": "side"
+    },
+    {
+     "type": "highlight",
+     "target": "P.r3",
+     "style": "box",
+     "color": "blue"
+    }
+   ]
+  },
+  {
+   "id": "s5",
+   "title": "Formula",
+   "narration": {
+    "en": "From one corner, an n-sided polygon splits into n minus 2 triangles. So the sum is n minus 2, times 180 degrees."
+   },
+   "actions": [
+    {
+     "type": "formula",
+     "latex": "S = (n-2)\\times 180^\\circ",
+     "size": 34
+    },
+    {
+     "type": "side_note",
+     "text": "n sides → *n - 2* triangles from one corner."
+    }
+   ]
+  }
+ ],
+ "quiz": [
+  {
+   "q": "Sum of interior angles of an octagon (8 sides)?",
+   "options": [
+    "900°",
+    "1080°",
+    "1440°"
+   ],
+   "answer": 1,
+   "why": "(8 - 2) × 180 = 1080."
+  }
+ ]
+}

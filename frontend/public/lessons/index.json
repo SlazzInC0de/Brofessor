@@ -1,0 +1,51 @@
+[
+ {
+  "id": "bst-insertion",
+  "title": "Binary Search Tree: Insertion",
+  "subject": "Data Structures",
+  "blurb": "Insert 35 into a BST: compare, walk the path, place the node, then check with an in-order traversal.",
+  "templates": [
+   "tree",
+   "array",
+   "formula"
+  ],
+  "steps": 6
+ },
+ {
+  "id": "dfa-even-zeros",
+  "title": "DFA: Even Number of 0s",
+  "subject": "Theory of Computation",
+  "blurb": "Build a two-state DFA, write its transition table and trace a string through it.",
+  "templates": [
+   "automaton",
+   "table",
+   "array"
+  ],
+  "steps": 5
+ },
+ {
+  "id": "polygon-angles",
+  "title": "Interior Angles of Polygons",
+  "subject": "Mathematics",
+  "blurb": "Draw polygons with turtle commands, spot the pattern and derive (n - 2) \u00d7 180\u00b0.",
+  "templates": [
+   "turtle",
+   "table",
+   "formula"
+  ],
+  "steps": 6
+ },
+ {
+  "id": "digestive-system",
+  "title": "Human Digestive System",
+  "subject": "Biology",
+  "blurb": "A textbook figure traced into strokes, labelled organ by organ, ending with a flowchart recap.",
+  "templates": [
+   "traced figure",
+   "labels",
+   "flowchart",
+   "pages"
+  ],
+  "steps": 9
+ }
+]

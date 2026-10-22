@@ -1,0 +1,236 @@
+{
+ "id": "bst-insertion",
+ "title": "Binary Search Tree: Insertion",
+ "subject": "Data Structures",
+ "layout": "classic",
+ "languages": [
+  "hinglish",
+  "english"
+ ],
+ "teaching_profile": {
+  "subject_type": "cs",
+  "content_type": "process",
+  "level": "college"
+ },
+ "steps": [
+  {
+   "id": "s0",
+   "title": "What is a BST",
+   "narration": {
+    "en": "A binary search tree keeps smaller values on the left and bigger values on the right of every node.",
+    "hi": "Binary search tree mein har node ke left side chhote values aur right side bade values hote hain.",
+    "hi_speech": "Binary search tree में हर node के left side छोटे values और right side बड़े values होते हैं."
+   },
+   "actions": [
+    {
+     "type": "heading",
+     "text": "Binary Search Tree: Insertion"
+    },
+    {
+     "type": "tree",
+     "id": "t1",
+     "nodes": [
+      "50",
+      "30",
+      "70",
+      "20",
+      "40",
+      "60",
+      "80"
+     ],
+     "edges": [
+      [
+       "50",
+       "30"
+      ],
+      [
+       "50",
+       "70"
+      ],
+      [
+       "30",
+       "20"
+      ],
+      [
+       "30",
+       "40"
+      ],
+      [
+       "70",
+       "60"
+      ],
+      [
+       "70",
+       "80"
+      ]
+     ]
+    },
+    {
+     "type": "side_note",
+     "text": "Rule: *smaller* goes left, *bigger* goes right."
+    }
+   ]
+  },
+  {
+   "id": "s1",
+   "title": "Insert 35",
+   "narration": {
+    "en": "Let us insert 35. We always start comparing at the root.",
+    "hi": "Ab 35 insert karte hain. Comparison hamesha root se shuru hota hai.",
+    "hi_speech": "अब 35 insert करते हैं. Comparison हमेशा root से शुरू होता है."
+   },
+   "actions": [
+    {
+     "type": "write",
+     "text": "Insert *35*",
+     "size": 26
+    },
+    {
+     "type": "highlight",
+     "target": "t1.50",
+     "style": "circle"
+    }
+   ]
+  },
+  {
+   "id": "s2",
+   "title": "Compare",
+   "narration": {
+    "en": "35 is smaller than 50, so go left to 30. 35 is bigger than 30, so go right to 40.",
+    "hi": "35, 50 se chhota hai, toh left jao 30 pe. 35, 30 se bada hai, toh right jao 40 pe.",
+    "hi_speech": "35, 50 से छोटा है, तो left जाओ 30 पे. 35, 30 से बड़ा है, तो right जाओ 40 पे."
+   },
+   "actions": [
+    {
+     "type": "arrow",
+     "from": "t1.50",
+     "to": "t1.30",
+     "label": "35 < 50"
+    },
+    {
+     "type": "arrow",
+     "from": "t1.30",
+     "to": "t1.40",
+     "label": "35 > 30"
+    },
+    {
+     "type": "bullet",
+     "text": "35 < 50: go *left*"
+    },
+    {
+     "type": "bullet",
+     "text": "35 > 30: go *right*"
+    }
+   ]
+  },
+  {
+   "id": "s3",
+   "title": "Place it",
+   "narration": {
+    "en": "35 is smaller than 40 and the left of 40 is empty, so 35 becomes its left child.",
+    "hi": "35, 40 se chhota hai aur 40 ka left khali hai, toh 35 wahin baith jaata hai.",
+    "hi_speech": "35, 40 से छोटा है और 40 का left खाली है, तो 35 वहीं बैठ जाता है."
+   },
+   "actions": [
+    {
+     "type": "bullet",
+     "text": "35 < 40 and left is empty: *place it*"
+    },
+    {
+     "type": "tree_add",
+     "target": "t1",
+     "node": "35",
+     "parent": "40",
+     "side": "left"
+    },
+    {
+     "type": "highlight",
+     "target": "t1.35",
+     "style": "circle",
+     "color": "blue"
+    }
+   ]
+  },
+  {
+   "id": "s4",
+   "title": "Cost",
+   "narration": {
+    "en": "Insertion walks one path from the root, so it costs order h, the height. Balanced trees give log n, skewed trees give n.",
+    "hi": "Insertion root se ek hi path chalta hai, isliye cost order h hai, yaani height. Balanced tree mein log n, skewed tree mein n.",
+    "hi_speech": "Insertion root से एक ही path चलता है, इसलिए cost order h है, यानी height. Balanced tree में log n, skewed tree में n."
+   },
+   "actions": [
+    {
+     "type": "formula",
+     "latex": "T(n) = O(h)"
+    },
+    {
+     "type": "bullet",
+     "text": "Balanced: *h = log n*"
+    },
+    {
+     "type": "bullet",
+     "text": "Skewed: !h = n!"
+    }
+   ]
+  },
+  {
+   "id": "s5",
+   "title": "In-order check",
+   "narration": {
+    "en": "Quick check: an in-order traversal of a BST always comes out sorted.",
+    "hi": "Quick check: BST ka in-order traversal hamesha sorted aata hai.",
+    "hi_speech": "Quick check: BST का in-order traversal हमेशा sorted आता है."
+   },
+   "actions": [
+    {
+     "type": "array",
+     "id": "io",
+     "label": "in-order",
+     "values": [
+      20,
+      30,
+      35,
+      40,
+      50,
+      60,
+      70,
+      80
+     ]
+    },
+    {
+     "type": "highlight",
+     "target": "io.2",
+     "style": "box",
+     "color": "blue"
+    },
+    {
+     "type": "side_note",
+     "text": "In-order output is *sorted*, so 35 landed in the right place."
+    }
+   ]
+  }
+ ],
+ "quiz": [
+  {
+   "q": "Inserting 65 into this tree, where does it go?",
+   "options": [
+    "Left of 60",
+    "Right of 60",
+    "Left of 80"
+   ],
+   "answer": 1,
+   "why": "65 > 50 (right), 65 < 70 (left), 65 > 60 (right)."
+  },
+  {
+   "q": "Worst-case insertion cost in a skewed BST?",
+   "options": [
+    "O(log n)",
+    "O(n)",
+    "O(1)"
+   ],
+   "answer": 1,
+   "why": "A skewed tree is a chain, so its height is n."
+  }
+ ]
+}

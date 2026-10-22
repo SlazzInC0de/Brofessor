@@ -1,3 +1,5 @@
+> Superseded by `docs/dsl.md` (Board DSL v1, implemented in `frontend/src/dsl/schema.ts`). Kept for history.
+
 # Board DSL v0 (draft)
 
 Brofessor's own lecture format. The LLM writes it, the renderer plays it. Complete by Day 7.

@@ -37,17 +37,23 @@ Input (topic / PDF / PPT / photo)
 ```
 Key decision: the LLM decides **what** to draw and say. The Layout Engine decides **where**.
 
+## Run it
+```bash
+cd frontend && npm install && npm run dev     # http://localhost:3000
+```
+Four sample lessons (BST, DFA, polygons, digestive system). Lesson format: `docs/dsl.md`.
+
 ## Folder structure
 ```
 Brofessor/
-  frontend/      Next.js + SVG board renderer (Phase 1)
+  frontend/      Next.js player + board engine + Board DSL v1 (Phase 1-2)
   backend/       FastAPI: extraction, LLM, TTS (Phase 3)
   samples/       Hand-written Board DSL lectures
   playground/    Standalone experiments and demos
   docs/
     log.md         Daily log
     decisions.md   Decisions with reasons
-    dsl-v0.md      Board DSL spec (draft)
+    dsl.md         Board DSL v1 reference
     week1.md       Week 1 day-by-day plan
     research/      Research notes
 ```
@@ -55,9 +61,9 @@ Brofessor/
 ## Roadmap
 | Phase | Scope | Status |
 |---|---|---|
-| 0 | Research + DSL v0 | In progress |
-| 1 | Renderer MVP (JSON to animated board) | |
-| 2 | Smart templates (tree, automaton, flowchart, table) | |
+| 0 | Research + DSL v0 | Mostly done |
+| 1 | Renderer MVP (JSON to animated board) | Done |
+| 2 | Smart templates (tree, automaton, flowchart, table) | Done |
 | 3 | LLM lecture generation | |
 | 4 | Voice (English + Hinglish) + sync | |
 | 5 | PDF/PPT scanning + figure redraw | |
