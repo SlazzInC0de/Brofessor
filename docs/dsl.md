@@ -1,6 +1,6 @@
 # Board DSL v1
 
-The format every lesson is written in. The LLM will write it in Phase 3; today the samples in `frontend/public/lessons/` are hand-written. Source of truth: `frontend/src/dsl/schema.ts` (Zod). Validate with `npm run validate`.
+The format every lesson is written in. The LLM writes it (Phase 3, D-018); the samples in `frontend/public/lessons/` are hand-written. Source of truth: `frontend/src/dsl/schema.ts` (Zod), mirrored in `backend/app/dsl/schema.py` (Pydantic; a test keeps them in sync). Validate with `npm run validate`.
 
 **Rule (D-001): actions say what to draw. The layout engine decides where.** Nothing in the DSL needs coordinates, except optional raw points in references.
 
@@ -69,6 +69,8 @@ Any text field: `*keyword*` is written in blue, `!warning!` in red. Long text wr
 | `turtle` | id, program (Logo), label?, size? | `hex.v3` vertex 3. Commands: fd, bk, rt, lt, pu, pd, seth, home, repeat n [ ] |
 | `traced_figure` | id, src, outline? | figure from the tracing pipeline (D-010) |
 | `figure_part` | figure, part, label?, detail? | draws one part, optional auto-placed label; `fig.stomach` |
+
+`traced_figure` and `figure_part` are not offered to the LLM yet: they need a traced asset (Phase 5). Every other action can be generated.
 
 ## References
 `"t1"` the whole element, `"t1.50"` a part, or `[x, y]` raw board coordinates (board is 1600 × 1000).

@@ -24,8 +24,8 @@ public/lessons/<id>.json  ──► Lesson.parse (Zod)  ──► Player ──�
 ## Structure
 ```
 app/
-  page.tsx              lesson library (reads public/lessons/index.json)
-  lesson/page.tsx       player page: /lesson/?id=<lesson-id>
+  page.tsx              home: "What do you want to learn?" form, recently generated, samples
+  lesson/page.tsx       player page: /lesson/?id=<sample> | ?topic=<topic> (live generation) | ?gen=<cached id>
   globals.css
 src/
   dsl/schema.ts         Board DSL v1 (Zod). Spec: docs/dsl.md
@@ -43,7 +43,8 @@ src/
     templates/          tree, array, table, flowchart, automaton, turtle, traced figure
     fonts/futural.json  Hershey Simplex glyphs
   components/
-    LessonPlayer.tsx    top bar, board, captions, controls, transcript, start/end screens
+    LessonPlayer.tsx    top bar, board, captions, controls, transcript, start/end screens; streams generated steps (SSE)
+  lib/api.ts            backend URL (NEXT_PUBLIC_API_URL, default http://localhost:8000)
     Icons.tsx           hand-drawn icon set
 public/lessons/         lesson JSON + assets (traced figures)
 scripts/validate-lessons.ts

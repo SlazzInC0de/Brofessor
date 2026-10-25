@@ -133,4 +133,12 @@ Every significant technical decision goes here: what was chosen, what the option
 - A marker-drawn **B wearing a tilted graduation cap** with a red tassel: "bro" + "professor" in one mark. Ink + red from the board palette, on a white tile.
 - Master file `docs/assets/logo.svg`; also the app favicon (`frontend/app/icon.svg`) and the header logo (B draws itself on load).
 
-## D-018: (next decision)
+## D-018: Phase 3: LLM lesson generation as a validated pipeline, streamed step by step
+- **Two stages, not one prompt.** A planner writes the lesson outline (title, 5-8 step goals with what to draw, a 3-question quiz). A step writer then writes one step at a time, given the plan, the board state so far (every drawn id and its parts) and how full each region is. Small calls fail less, can be repaired one at a time, and let the class start before the lesson is finished.
+- **Validate, repair, salvage.** Every response is checked twice: Pydantic (a mirror of the Zod schema) and semantic checks the schema can't express (references point at drawn parts, unique ids, regions exist in the layout, per-template size limits, Hinglish fields present when needed). Errors are sent back to the model as a repair message (max 2 rounds). If a step still fails, invalid actions are dropped so the lesson never breaks the player. Every count is recorded.
+- **The model never places anything.** D-001 holds: the LLM picks templates and references; the layout engine decides positions. `traced_figure` / `figure_part` are not offered to the model yet (they need a traced asset: Phase 5).
+- **Provider-agnostic** thin HTTP client: Gemini, any OpenAI-compatible API (OpenAI, Groq, OpenRouter, local Ollama), and a replay provider that plays recorded responses so tests and demos run offline without keys.
+- **Streaming:** `GET /api/generate` sends Server-Sent Events (`plan`, `step`…, `done`). The player starts after the first step; if it catches up with the writer it waits with "Writing the next step…". Finished lessons are cached on disk (same topic + level + language opens instantly) and listed on the home page. Per-IP rate limit; task cancelled when the client disconnects.
+- **Eval harness** (`eval/`): 30 topics across 12 subjects. Measures plan valid first try, steps valid first try / after repair / salvaged, actions dropped, time to first step, tokens, cost, template coverage, and optional LLM-as-judge scores (accuracy, clarity, visual use, pacing). This is how prompt and model changes are compared, with numbers instead of impressions.
+
+## D-019: (next decision)

@@ -5,6 +5,8 @@ import type { LessonT } from '@/dsl/schema';
 
 export interface PlayerState {
   step: number; stepFrac: number; paused: boolean; started: boolean; done: boolean;
+  ready: number;            // steps available (grows while a lesson is being generated)
+  waiting: boolean;         // the class caught up with the generator and is waiting for the next step
   caption: string; captionWord: number; pages: { title: string; live: boolean; viewing: boolean }[];
 }
 
@@ -13,13 +15,16 @@ export class Player {
   board: Board;
   narrator: Narrator;
   lang: Lang;
-  state: PlayerState = { step: -1, stepFrac: 0, paused: true, started: false, done: false, caption: '', captionWord: -1, pages: [] };
+  state: PlayerState = { step: -1, stepFrac: 0, paused: true, started: false, done: false, ready: 0, waiting: false, caption: '', captionWord: -1, pages: [] };
+  private expected: number | null = null;
+  private waiters = new Map<number, () => void>();
   private listeners = new Set<(s: PlayerState) => void>();
   private stepStart = 0; private stepEst = 6000; private elapsed = 0; private last = 0; private driven = 0;
   private raf = 0;
 
   constructor(svg: SVGSVGElement, public lesson: LessonT) {
     this.board = new Board(svg, lesson);
+    this.state.ready = lesson.steps.length;
     this.narrator = new Narrator(lesson.id);
     this.lang = lesson.languages.includes('hinglish') ? 'hinglish' : 'english';
     this.narrator.onProgress = f => { this.driven = performance.now(); this.setWord(f); };
@@ -38,6 +43,18 @@ export class Player {
     };
     this.raf = requestAnimationFrame(loop);
   }
+
+  /** For streamed lessons: how many steps the plan promises. */
+  setExpected(n: number) { this.expected = n; }
+  /** Append a step that just arrived from the generator. */
+  addStep(step: LessonT['steps'][number]) {
+    this.lesson.steps.push(step);
+    const i = this.lesson.steps.length - 1;
+    this.waiters.get(i)?.(); this.waiters.delete(i);
+    this.emit({ ready: this.lesson.steps.length });
+  }
+  get total() { return this.expected ?? this.lesson.steps.length; }
+  private stepReady(i: number) { return i < this.lesson.steps.length ? Promise.resolve() : new Promise<void>(r => this.waiters.set(i, r)); }
 
   subscribe(fn: (s: PlayerState) => void) { this.listeners.add(fn); fn(this.state); return () => this.listeners.delete(fn); }
   private emit(p: Partial<PlayerState>) { this.state = { ...this.state, ...p }; this.listeners.forEach(f => f(this.state)); }
@@ -58,7 +75,13 @@ export class Player {
     clock.paused = false;
     this.emit({ started: true, paused: false, done: false, step: from, stepFrac: 0 });
     try {
-      for (let i = 0; i < this.lesson.steps.length; i++) {
+      for (let i = 0; i < this.total; i++) {
+        if (i >= this.lesson.steps.length) {
+          this.emit({ waiting: true, caption: 'Writing the next step…', captionWord: -1 });
+          await this.stepReady(i);
+          if (token !== clock.run) throw new Stop();
+          this.emit({ waiting: false });
+        }
         const st = this.lesson.steps[i];
         const catchUp = i < from;
         clock.skipping = catchUp;
@@ -78,7 +101,7 @@ export class Player {
         if (!catchUp) { this.emit({ stepFrac: 1, captionWord: 9999 }); await clock.wait(450, token); }
       }
       b.camera.full();
-      this.emit({ done: true, paused: true, step: this.lesson.steps.length - 1, stepFrac: 1, captionWord: 9999, pages: this.pageList() });
+      this.emit({ done: true, waiting: false, paused: true, step: this.lesson.steps.length - 1, stepFrac: 1, captionWord: 9999, pages: this.pageList() });
       clock.paused = true;
     } catch (e) { if (!(e instanceof Stop)) { console.error(e); throw e; } }
   }

@@ -21,3 +21,8 @@ Format: three lines a day. Done / Blocked on / Next.
 - Blocked on: real neural voice files (needs `generate_edge.py` or a Sarvam key run locally).
 - Next:
 - Phase 1-2 done (D-016): Next.js player in `frontend/`, Board DSL v1 with Zod validation, layout engine with auto pages, templates (tree, array, table, flowchart, automaton, turtle, traced figure), 4 sample lessons, all verified end to end.
+
+## Day 4 (25-26 Oct 2026)
+- Done: Phase 3 (D-018). FastAPI backend: Pydantic DSL mirror, semantic validator, planner + step writer prompts with few-shot samples, repair loop, salvage, providers (Gemini, OpenAI-compatible, replay), SSE endpoint, disk cache, rate limit. Eval harness with 30 topics and a markdown report. Frontend: "What do you want to learn?" form, live streaming into the player (start after the first step, waiting state), recently generated list. 17 backend tests; end-to-end verified offline with the replay provider.
+- Blocked on: real eval numbers need an API key run locally.
+- Next: run the eval with a real model, tune prompts from the report, then Phase 4 (voice per step).

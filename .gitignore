@@ -9,9 +9,14 @@ venv/
 .env
 .env.*
 !.env.example
+!.env.local.example
 *.log
 .DS_Store
 Thumbs.db
 .vscode/
 cache/
 audio_cache/
+
+# Phase 3: generated lessons cache and offline (replay) eval runs
+backend/data/
+eval/results/*replay*/

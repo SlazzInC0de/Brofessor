@@ -41,15 +41,29 @@ Key decision: the LLM decides **what** to draw and say. The Layout Engine decide
 
 ## Run it
 ```bash
+# 1. backend (lesson generation)
+cd backend
+pip install -r requirements.txt
+copy .env.example .env          # set BROFESSOR_PROVIDER + API key (or "replay" to run offline)
+uvicorn app.main:app --port 8000
+
+# 2. frontend (player)
 cd frontend && npm install && npm run dev     # http://localhost:3000
 ```
-Four sample lessons (BST, DFA, polygons, digestive system). Lesson format: `docs/dsl.md`.
+Type any topic on the home page: the lesson is planned, written step by step by the LLM, validated, and streamed into the player while it plays. Four hand-written sample lessons work without the backend. Lesson format: `docs/dsl.md`. Backend details: `backend/README.md`.
+
+## Eval
+```bash
+python eval/run_eval.py --provider gemini --limit 10 --judge
+```
+Generates a lesson per topic in `eval/topics.yaml` and reports schema validity (first try / after repair), salvaged steps, time to first step, tokens, cost and judge scores (D-018).
 
 ## Folder structure
 ```
 Brofessor/
   frontend/      Next.js player + board engine + Board DSL v1 (Phase 1-2)
-  backend/       FastAPI: extraction, LLM, TTS (Phase 3)
+  backend/       FastAPI: LLM lesson generation pipeline, SSE streaming (Phase 3)
+  eval/          Eval harness: topic set + metrics report
   samples/       Hand-written Board DSL lectures
   playground/    Standalone experiments and demos
   docs/
@@ -66,7 +80,7 @@ Brofessor/
 | 0 | Research + DSL v0 | Mostly done |
 | 1 | Renderer MVP (JSON to animated board) | Done |
 | 2 | Smart templates (tree, automaton, flowchart, table) | Done |
-| 3 | LLM lecture generation | |
+| 3 | LLM lecture generation + eval harness | Done |
 | 4 | Voice (English + Hinglish) + sync | |
 | 5 | PDF/PPT scanning + figure redraw | |
 | 6 | Doubts, quiz, notes export, Bro Mode | |

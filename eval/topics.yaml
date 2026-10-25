@@ -1,0 +1,32 @@
+# Eval topic set: spread across subjects and the templates each should exercise.
+# expect = templates a good lesson would probably use (informational, shown in the report)
+- {topic: "Binary search tree insertion", subject: cs, expect: [tree]}
+- {topic: "Bubble sort", subject: cs, expect: [array, table]}
+- {topic: "Binary search on a sorted array", subject: cs, expect: [array]}
+- {topic: "Stack: push and pop", subject: cs, expect: [array]}
+- {topic: "Breadth-first search on a graph", subject: cs, expect: [flowchart, table]}
+- {topic: "Merge sort", subject: cs, expect: [tree, array]}
+- {topic: "Heap insertion (min-heap)", subject: cs, expect: [tree, array]}
+- {topic: "Hash table with chaining", subject: cs, expect: [table, array]}
+- {topic: "DFA for strings ending in 01", subject: toc, expect: [automaton, table]}
+- {topic: "NFA to DFA subset construction", subject: toc, expect: [automaton, table]}
+- {topic: "Normalization: 1NF, 2NF, 3NF", subject: dbms, expect: [table]}
+- {topic: "SQL joins: inner, left, right", subject: dbms, expect: [table]}
+- {topic: "TCP three-way handshake", subject: networks, expect: [flowchart]}
+- {topic: "Round robin CPU scheduling", subject: os, expect: [table]}
+- {topic: "Deadlock and the four Coffman conditions", subject: os, expect: [flowchart]}
+- {topic: "Pythagoras theorem", subject: math, expect: [turtle, formula]}
+- {topic: "Interior angles of polygons", subject: math, expect: [turtle, table, formula]}
+- {topic: "Quadratic formula derivation", subject: math, expect: [formula]}
+- {topic: "Derivative as the slope of a tangent", subject: math, expect: [formula, turtle]}
+- {topic: "Probability of two independent events", subject: math, expect: [table, tree]}
+- {topic: "Newton's second law", subject: physics, expect: [formula, turtle]}
+- {topic: "Ohm's law and series circuits", subject: physics, expect: [formula, table]}
+- {topic: "Photosynthesis", subject: biology, expect: [flowchart, formula]}
+- {topic: "Human digestive system", subject: biology, expect: [flowchart, note_block]}
+- {topic: "Mitosis phases", subject: biology, expect: [flowchart, table]}
+- {topic: "Acid-base neutralisation", subject: chemistry, expect: [formula]}
+- {topic: "Gradient descent", subject: ml, expect: [formula, flowchart]}
+- {topic: "Confusion matrix, precision and recall", subject: ml, expect: [table, formula]}
+- {topic: "Planning function of management", subject: management, expect: [flowchart, note_block]}
+- {topic: "Supply and demand equilibrium", subject: economics, expect: [table, turtle]}
