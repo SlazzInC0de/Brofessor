@@ -141,4 +141,12 @@ Every significant technical decision goes here: what was chosen, what the option
 - **Streaming:** `GET /api/generate` sends Server-Sent Events (`plan`, `step`…, `done`). The player starts after the first step; if it catches up with the writer it waits with "Writing the next step…". Finished lessons are cached on disk (same topic + level + language opens instantly) and listed on the home page. Per-IP rate limit; task cancelled when the client disconnects.
 - **Eval harness** (`eval/`): 30 topics across 12 subjects. Measures plan valid first try, steps valid first try / after repair / salvaged, actions dropped, time to first step, tokens, cost, template coverage, and optional LLM-as-judge scores (accuracy, clarity, visual use, pacing). This is how prompt and model changes are compared, with numbers instead of impressions.
 
-## D-019: (next decision)
+## D-019: Scrapbook layer on a minimal player
+- Picked from 22 reference styles: **Scrapbook on a Minimalism base**. It continues the "Drawn, not generated" story (marker logo, single-line handwriting) instead of decorating around it.
+- **Where:** home page (ruled notebook form with tape, sticky-note topic ideas, taped index cards, highlighter section titles), start screen (torn notebook page with the outline), end screen (LESSON COMPLETE stamp, quiz as index cards). The player stays plain white with the 3-marker palette: nothing competes with the board.
+- **Headings are written by the board's own pen:** a `Handwritten` component draws text in Hershey futural stroke by stroke (CSS dash animation, static under reduced motion).
+- **Type:** IBM Plex Sans for UI text, Kalam (handwritten, made in India, Devanagari-ready) for notes and labels. Geist dropped.
+- **Interaction:** cards and stickies straighten on hover instead of the usual lift; primary buttons are ink with a blue offset shadow that presses in.
+- **Mobile:** start and end screens open full-screen under the top bar (the board is too short to hold them).
+
+## D-020: (next decision)

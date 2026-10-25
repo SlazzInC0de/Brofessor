@@ -26,3 +26,4 @@ Format: three lines a day. Done / Blocked on / Next.
 - Done: Phase 3 (D-018). FastAPI backend: Pydantic DSL mirror, semantic validator, planner + step writer prompts with few-shot samples, repair loop, salvage, providers (Gemini, OpenAI-compatible, replay), SSE endpoint, disk cache, rate limit. Eval harness with 30 topics and a markdown report. Frontend: "What do you want to learn?" form, live streaming into the player (start after the first step, waiting state), recently generated list. 17 backend tests; end-to-end verified offline with the replay provider.
 - Blocked on: real eval numbers need an API key run locally.
 - Next: run the eval with a real model, tune prompts from the report, then Phase 4 (voice per step).
+- UI: scrapbook layer on home, start and end screens; hand-drawn headings in the board's own handwriting; Plex Sans + Kalam (D-019).

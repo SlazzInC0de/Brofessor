@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import { Handwritten } from './Handwritten';
 import { Lesson, Step, type LessonT } from '@/dsl/schema';
 import { API_URL } from '@/lib/api';
 import { Player, type PlayerState } from '@/board/engine/player';
@@ -136,17 +137,18 @@ export default function LessonPlayer({ id, gen, topic, level: levelIn, lang: lan
             <div className="surface">
               <svg ref={svgRef} className="board" role="img" aria-label="Whiteboard" />
               {!lesson && genState === 'planning' && (
-                <div className="start"><div className="start-inner">
-                  <h1>{topic}</h1>
+                <div className="start"><div className="start-inner torn-page">
+                  <Handwritten text={topic || 'New lesson'} size={32} maxWidth={460} />
                   <p className="meta">Brofessor is planning your lesson…</p>
                   <div className="planning-bar" aria-hidden><span /></div>
                 </div></div>
               )}
               {lesson && !s?.started && (
-                <div className="start"><div className="start-inner">
-                  <h1>{lesson.title}</h1>
+                <div className="start"><div className="start-inner torn-page">
+                  <span className="tape" aria-hidden />
+                  <Handwritten key={lesson.title} text={lesson.title} size={32} maxWidth={460} />
                   <p className="meta">{[lesson.subject, lesson.teaching_profile?.content_type, `${outline.length} steps`].filter(Boolean).join(', ')}{genState === 'writing' ? `. Writing step ${Math.min(ready + 1, outline.length)} of ${outline.length}…` : ''}</p>
-                  <ol className="outline">{outline.map((st, i) => <li key={st.id} className={plan && i >= ready ? 'pending' : ''}><span>{i + 1}</span>{st.title}</li>)}</ol>
+                  <ol className="outline">{outline.map((st, i) => <li key={st.id} className={plan && i >= ready ? 'pending' : ''}><span className="num">{i + 1}</span><span className="t">{st.title}</span></li>)}</ol>
                   <div className="start-row"><label id="lvl">Level</label>
                     <div className="lvl" role="group" aria-labelledby="lvl">{Object.keys(PACE).map(l => <button key={l} aria-pressed={level === l} onClick={() => setLevel(l)}>{l}</button>)}</div>
                   </div>
@@ -158,10 +160,12 @@ export default function LessonPlayer({ id, gen, topic, level: levelIn, lang: lan
               )}
               {s?.done && showEnd && lesson && (
                 <div className="end"><div className="end-inner">
-                  <h2>Lesson complete</h2>
-                  <p className="meta">{steps.length} steps covered.</p>
-                  {lesson.quiz && <section className="panel"><h3>Quick check</h3>{lesson.quiz.map((q, qi) => (
-                    <div className="q" key={qi}><p>{q.q}</p><div className="opts">{q.options.map((o, oi) => {
+                  <div className="end-head">
+                    <div><h2>{lesson.title}</h2><p className="meta">{steps.length} steps covered. Check yourself before you close the notebook.</p></div>
+                    <span className="stamp" aria-label="Lesson complete">Lesson<br />complete</span>
+                  </div>
+                  {lesson.quiz && <section className="quiz"><h3>Quick check</h3>{lesson.quiz.map((q, qi) => (
+                    <div className={'q quiz-card' + (quiz[qi] === undefined ? '' : quiz[qi] === q.answer ? ' got' : ' miss')} key={qi} style={{ ['--tilt' as string]: `${[-.6, .5, -.3][qi % 3]}deg` }}><span className="qn">Q{qi + 1}</span><p>{q.q}</p><div className="opts">{q.options.map((o, oi) => {
                       const picked = quiz[qi];
                       const cls = picked === undefined ? '' : oi === q.answer ? 'right' : oi === picked ? 'wrong' : '';
                       return <button key={oi} className={cls} disabled={picked !== undefined} onClick={() => setQuiz({ ...quiz, [qi]: oi })}>{o}</button>;
