@@ -1,3 +1,4 @@
+import DOMPurify from 'dompurify';
 import katex from 'katex';
 import type { Board } from './board';
 import type { ActionT, ActionOf } from '@/dsl/schema';
@@ -138,7 +139,7 @@ async function formula(b: Board, a: ActionOf<'formula'>, token: number) {
   const ctx = b.ctx(token), region = defRegion(b, a.region), size = a.size ?? 30;
   const probe = document.createElement('div');
   probe.style.cssText = `position:absolute;visibility:hidden;font-size:${size}px;white-space:nowrap;left:-9999px;top:0`;
-  probe.innerHTML = katex.renderToString(a.latex, { throwOnError: false, output: 'html' });
+  probe.innerHTML = DOMPurify.sanitize(katex.renderToString(a.latex, { throwOnError: false, output: 'html' }));
   document.body.appendChild(probe);
   const w = Math.ceil(probe.offsetWidth * 1.12) + 24, h = probe.offsetHeight + 12; probe.remove();
   const box = b.layout.box(region);
@@ -148,7 +149,7 @@ async function formula(b: Board, a: ActionOf<'formula'>, token: number) {
   const fo = el('foreignObject', { x, y: r.y, width: w, height: h }, g);
   const div = document.createElement('div');
   div.className = 'board-formula'; div.style.fontSize = size + 'px'; div.style.color = INK;
-  div.innerHTML = katex.renderToString(a.latex, { throwOnError: false, output: 'html' });
+  div.innerHTML = DOMPurify.sanitize(katex.renderToString(a.latex, { throwOnError: false, output: 'html' }));
   fo.appendChild(div);
   const id = 'fclip' + Math.random().toString(36).slice(2, 8);
   const cp = el('clipPath', { id }, g); const rc = el('rect', { x, y: r.y - 4, width: 0, height: h + 8 }, cp);

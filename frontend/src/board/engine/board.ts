@@ -28,7 +28,7 @@ export class Board {
   private raf = 0;
 
   constructor(public svg: SVGSVGElement, public lesson: LessonT) {
-    svg.innerHTML = '';
+    svg.replaceChildren();
     svg.setAttribute('viewBox', '0 0 1600 1000');
     const defs = el('defs', {}, svg);
     defs.innerHTML = `
@@ -59,7 +59,7 @@ export class Board {
   }
 
   reset() {
-    this.root.innerHTML = ''; this.pages = []; this.entities.clear();
+    this.root.replaceChildren(); this.pages = []; this.entities.clear();
     this.makePage('Board');
   }
 
