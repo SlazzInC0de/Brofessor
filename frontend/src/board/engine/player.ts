@@ -95,6 +95,8 @@ export class Player {
           : this.narrator.voiceOn
             ? this.narrator.speak(st.id, text, (this.lang === 'hinglish' && st.narration.hi_speech) || text, this.lang, clock.speed)
             : clock.tween(Math.max(2500, text.length * 55), k => this.setWord(k), token).catch(() => {});
+        const next = this.lesson.steps[i + 1];
+        if (!catchUp && next) this.narrator.prefetch(next.id, this.lang);
         for (const a of st.actions) await b.run(a, token);
         if (!clock.skipping) await speech; else this.narrator.stop();
         clock.skipping = false;
@@ -118,6 +120,8 @@ export class Player {
   setSpeed(s: number) { this.board.clock.speed = s; this.narrator.setRate(s); }
   setLang(l: Lang) { this.lang = l; }
   setFollow(on: boolean) { const c = this.board.camera; c.follow = on; c.zoom = matchMedia('(max-width:720px)').matches ? 2.1 : 1.6; if (!on) c.full(); }
+  /** Use the API's neural voice (with word timings) when the server offers it. */
+  setTtsApi(base: string | null) { this.narrator.api = base; }
   setVoice(on: boolean) { this.narrator.voiceOn = on; if (!on) this.narrator.stop(); }
   showPage(i: number) {
     this.board.showPage(i);

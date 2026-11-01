@@ -44,10 +44,27 @@ topic ─► plan (title, 5-8 step goals, quiz)            validate ─► repai
 | `GET /api/generate?topic=&level=&language=` | Server-Sent Events: `plan`, `step` (one per step), `done`, `error`. Cached topics replay instantly. Rate-limited per IP (`BROFESSOR_RATE_LIMIT`, default 20/hour). |
 | `GET /api/lessons` | recently generated lessons |
 | `GET /api/lessons/{id}` | one lesson |
+| `GET /api/tts/{lesson}/{lang}/{step}` | narration for one step: `{url, words: [{w, t, d}], duration_ms}`; made once, then cached |
+| `GET /api/audio/{lesson}/{lang}/{file}` | the audio file |
+
+## Narration voice (Phase 4)
+Every step is spoken by a neural voice made on the server, cached on disk, and played by the player with **word timings**, so the caption highlights exactly the word being said.
+
+| `BROFESSOR_TTS` | Voices | Word timings | Key |
+|---|---|---|---|
+| `edge` (default) | `en-IN-NeerjaNeural` (English), `hi-IN-SwaraNeural` (Hinglish) | yes | none |
+| `sarvam` | Bulbul, built for code-mixed Hinglish | estimated | `SARVAM_API_KEY` |
+| `off` | browser voice in the player | estimated | none |
+
+- Hinglish speaks the step's `hi_speech` (Devanagari + English terms), which Indian voices pronounce far better than Roman Hindi.
+- While a lesson is being generated, each step is voiced as soon as it is written (2 at a time), so audio is ready before the class reaches it. The player also fetches the next step's audio while the current one plays.
+- Files are named by a hash of voice + text: edit a step and it is re-voiced; otherwise it is never made twice. Served with immutable cache headers.
+- Works for the hand-written samples too (read from `frontend/public/lessons`).
+- `edge` uses the voice service behind Edge's Read Aloud: free and good for a prototype, but unofficial. Use Sarvam or another paid TTS in production.
 
 ## Tests and eval
 ```bash
-python -m pytest -q                                          # schema parity, validator, pipeline, API (offline)
+python -m pytest -q                                          # schema parity, validator, pipeline, API, TTS (offline)
 python ../eval/run_eval.py --provider gemini --limit 10      # real model on the topic set
 python ../eval/run_eval.py --provider gemini --judge         # + LLM-as-judge scores
 ```

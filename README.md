@@ -104,7 +104,7 @@ Next.js, TypeScript, SVG, rough.js, perfect-freehand, opentype.js, KaTeX, GSAP |
 | 1 | Renderer MVP (JSON to animated board) | Done |
 | 2 | Smart templates (tree, automaton, flowchart, table) | Done |
 | 3 | LLM lecture generation + eval harness | Done |
-| 4 | Voice (English + Hinglish) + sync | |
+| 4 | Voice (English + Hinglish) + sync | Done |
 | 5 | PDF/PPT scanning + figure redraw | |
 | 6 | Doubts, quiz, notes export, Bro Mode | |
 | 7 | Polish + deploy | |

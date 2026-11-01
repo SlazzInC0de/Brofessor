@@ -4,6 +4,8 @@ Brofessor API.
   GET  /api/lessons                  recently generated lessons
   GET  /api/lessons/{id}             one lesson (Board DSL JSON)
   GET  /api/generate?topic=&level=&language=   Server-Sent Events: plan, step (one per step), done | error
+  GET  /api/tts/{lesson}/{lang}/{step}        narration audio for a step: {url, words, duration_ms} (made once, cached)
+  GET  /api/audio/{lesson}/{lang}/{file}      the cached audio file
 Run: uvicorn app.main:app --reload --port 8000
 """
 from __future__ import annotations
@@ -12,13 +14,13 @@ from collections import defaultdict, deque
 from typing import Literal
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
-from app import config, store
+from fastapi.responses import FileResponse, StreamingResponse
+from app import config, store, tts
 from app.dsl.schema import dump
 from app.llm.provider import make_provider, ProviderError
 from app.pipeline.generate import generate_lesson, lesson_id
 
-app = FastAPI(title="Brofessor API", version="0.3.0")
+app = FastAPI(title="Brofessor API", version="0.4.0")
 app.add_middleware(CORSMiddleware, allow_origins=config.CORS_ORIGINS, allow_methods=["GET"], allow_headers=["*"])
 
 _hits: dict[str, deque] = defaultdict(deque)
@@ -34,7 +36,40 @@ def _rate_limit(ip: str) -> None:
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "provider": config.PROVIDER, "model": config.MODEL}
+    t = tts.make_tts()
+    return {"ok": True, "provider": config.PROVIDER, "model": config.MODEL, "tts": t.name if t else None}
+
+
+def _find_lesson(lid: str) -> dict | None:
+    """A generated lesson from the cache, or one of the hand-written samples shipped with the frontend."""
+    if not tts.SAFE.match(lid): return None
+    lesson = store.get(lid)
+    if lesson: return lesson
+    p = config.SAMPLES_DIR / f"{lid}.json"
+    return json.loads(p.read_text(encoding="utf-8")) if p.is_file() else None
+
+
+@app.get("/api/tts/{lid}/{lang}/{sid}")
+async def step_audio(lid: str, lang: Literal["english", "hinglish"], sid: str):
+    provider = tts.make_tts()
+    if not provider: raise HTTPException(404, "Narration audio is turned off on this server")
+    lesson = _find_lesson(lid)
+    step = next((s for s in (lesson or {}).get("steps", []) if s.get("id") == sid), None)
+    if not step: raise HTTPException(404, "Step not found")
+    try:
+        meta = await tts.synthesize(lid, lang, step, provider)
+    except tts.TTSError as e:
+        raise HTTPException(502, str(e))
+    return {"url": f"/api/audio/{meta['file']}", "words": meta["words"], "duration_ms": meta["duration_ms"], "voice": meta.get("voice")}
+
+
+@app.get("/api/audio/{lid}/{lang}/{name}")
+def audio_file(lid: str, lang: str, name: str):
+    p = tts.audio_path(f"{lid}/{lang}/{name}")
+    if not p: raise HTTPException(404, "Audio not found")
+    # file names carry a content hash, so they never change: cache forever
+    return FileResponse(p, media_type="audio/mpeg" if p.suffix == ".mp3" else "audio/wav",
+                        headers={"Cache-Control": "public, max-age=31536000, immutable"})
 
 
 @app.get("/api/lessons")
@@ -78,7 +113,19 @@ async def generate(request: Request,
     _rate_limit(request.client.host if request.client else "unknown")
     queue: asyncio.Queue = asyncio.Queue()
 
-    async def emit(event, data): await queue.put((event, data))
+    voice = tts.make_tts()
+    voice_lang = "hinglish" if language == "hinglish" else "english"
+    voice_slots = asyncio.Semaphore(2)
+
+    async def prefetch(step: dict):
+        """Voice each step as soon as it is written, so audio is ready before the class reaches it."""
+        async with voice_slots:
+            try: await tts.synthesize(lid, voice_lang, step, voice)
+            except Exception: pass                               # the player falls back to the browser voice
+
+    async def emit(event, data):
+        await queue.put((event, data))
+        if event == "step" and voice: asyncio.create_task(prefetch(data["step"]))
 
     async def run():
         try:

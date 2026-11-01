@@ -5,3 +5,4 @@ httpx==0.28.1
 python-dotenv==1.2.4
 pyyaml==6.0.2
 pytest==9.1.1
+edge-tts==7.3.1

@@ -149,4 +149,12 @@ Every significant technical decision goes here: what was chosen, what the option
 - **Interaction:** cards and stickies straighten on hover instead of the usual lift; primary buttons are ink with a blue offset shadow that presses in.
 - **Mobile:** start and end screens open full-screen under the top bar (the board is too short to hold them).
 
-## D-020: (next decision)
+## D-020: Phase 4: server-side neural narration with word timings
+- **Voices are made on the server, per step, and cached** (`backend/app/tts`). Default provider: Edge neural voices (`en-IN-NeerjaNeural`, `hi-IN-SwaraNeural`), free, no key, and they return **word boundaries**. Sarvam Bulbul is the switch for production-quality Hinglish; `off` keeps the browser voice.
+- **Word timings drive the captions.** The player highlights the word at the audio's current time instead of guessing from text length, and the step length comes from the real audio. For Hinglish the spoken text (Devanagari `hi_speech`) and the caption (Roman `hi`) differ, so progress maps by word fraction.
+- **No waiting for audio:** steps are voiced in the background while the lesson is generated, and the player prefetches the next step's audio during the current one.
+- **Cache key = hash(provider, voice, text):** a step is voiced once; an edited step gets a new file automatically. Files are immutable and served with long cache headers.
+- **Fallback chain in the player:** API voice → pre-generated `/audio` files → browser voice. A failure never stops the class.
+- Supersedes the bake-off default in `docs/research/voice.md` for now: Edge for development, Sarvam to be compared before launch.
+
+## D-021: (next decision)

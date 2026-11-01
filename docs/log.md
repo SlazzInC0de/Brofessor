@@ -27,3 +27,8 @@ Format: three lines a day. Done / Blocked on / Next.
 - Blocked on: real eval numbers need an API key run locally.
 - Next: run the eval with a real model, tune prompts from the report, then Phase 4 (voice per step).
 - UI: scrapbook layer on home, start and end screens; hand-drawn headings in the board's own handwriting; Plex Sans + Kalam (D-019).
+
+## Day 5 (1 Nov 2026)
+- Done: Phase 4 (D-020). TTS module (Edge neural voices with word timings, Sarvam, fake for tests), `/api/tts` + `/api/audio` with disk cache, background voicing during generation, player uses server audio with word-accurate karaoke and next-step prefetch, fallback to files and browser voice. 21 backend tests; e2e verified with the fake voice.
+- Blocked on: hearing the real Edge voices needs a local run (the build sandbox cannot reach the voice service).
+- Next: listen to English + Hinglish, pick voices and rate; then Phase 5 (PDF/PPT scanning) or Phase 6 (doubt chat).

@@ -20,6 +20,7 @@ REPLAY_FILE = os.getenv("BROFESSOR_REPLAY", str(ROOT / "tests" / "fixtures" / "b
 OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
 CORS_ORIGINS = [o.strip() for o in os.getenv("BROFESSOR_CORS", "http://localhost:3000").split(",") if o.strip()]
 DATA_DIR = Path(os.getenv("BROFESSOR_DATA", str(ROOT / "data")))
+SAMPLES_DIR = Path(os.getenv("BROFESSOR_SAMPLES", str(ROOT.parent / "frontend" / "public" / "lessons")))
 MAX_REPAIRS = int(os.getenv("BROFESSOR_MAX_REPAIRS", "2"))
 RATE_LIMIT_PER_HOUR = int(os.getenv("BROFESSOR_RATE_LIMIT", "20"))
 

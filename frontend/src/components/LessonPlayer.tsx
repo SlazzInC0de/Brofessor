@@ -86,6 +86,8 @@ export default function LessonPlayer({ id, gen, topic, level: levelIn, lang: lan
     const narrow = matchMedia('(max-width:720px)').matches;
     p.setFollow(narrow); setFollow(narrow);
     void p.preload();
+    // neural narration from the API when it is running and has a voice provider; otherwise the browser voice
+    fetch(`${API_URL}/api/health`).then(r => r.json()).then(h => { if (h?.tts && playerRef.current === p) p.setTtsApi(API_URL); }).catch(() => {});
     const unsub = p.subscribe(setS);
     return () => { unsub(); p.destroy(); playerRef.current = null; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
